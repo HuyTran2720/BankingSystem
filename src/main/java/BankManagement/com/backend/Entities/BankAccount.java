@@ -21,6 +21,8 @@ public class BankAccount {
     @Column (name = "account_type")
     private String accountType;
 
+    // add password
+
     public Integer getId() {
         return id;
     }

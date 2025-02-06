@@ -1,0 +1,77 @@
+button {
+    cursor: pointer;
+}
+
+button:hover {
+    transform: scale(1.05);
+    filter:grayscale(.5)
+}
+
+.formContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: whitesmoke;
+    height: 100vh;
+}
+
+.formContainer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 45%; 
+    height: 30%; 
+    background-color: dodgerblue; 
+    z-index: -1; 
+    border-bottom-right-radius: 15px;
+}
+
+form {
+    text-align: center;
+    align-items: center;
+    font-family:Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    background-color: white;
+    height: fit-content;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    padding: 20px, 40px;
+}
+
+input[type=text], input[type=email], input[type=password] {
+    
+    font-size: medium;
+    padding: 10px;
+    margin: 5px 0 8px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+    border-radius: 5px;
+    width: 80%;
+}
+
+.clearfix {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.confirmBtn {
+    background-color: dodgerblue;
+    color: white;
+}
+
+.cancelBtn, .confirmBtn {
+    border-radius: 5px;
+    border-color: transparent;
+    width: 40%;
+    height: 40px;
+    margin: 5px 1%; 
+    font-size: medium;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
