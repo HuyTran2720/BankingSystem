@@ -5,6 +5,27 @@
         <link rel="stylesheet" href="css/common.css">
     </head>
 
-    <h1> yo yo </h1>
+    <body class="formContainer">
+        <form>
+            <p></p>
+            <h1 style="font-size: x-large;"> Log In </h1>
+            
+            <input type="email" placeholder="Enter Email" required> 
+    
+            <input type="password" placeholder="Enter Password" name="psw" required>
+    
+            <div class = "clearfix">
+                <button onclick="window.location.href = 'index.html';" class="cancelBtn"> Cancel </button>
+                <button type="submit" class="confirmBtn"> Confirm </button>
+            </div>
+
+            <label>
+                <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+            </label>
+            <p></p>
+
+        </form>
+        <p style="font-family: Arial, Helvetica, sans-serif;"> Don't have an account? <a href="createAccount.html" style="color:dodgerblue">Sign Up</a></p>
+    </body>
 
 </html>
