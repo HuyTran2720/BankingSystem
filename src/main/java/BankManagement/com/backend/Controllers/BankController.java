@@ -71,10 +71,4 @@ public class BankController {
 
         return accountToDelete;
     }
-
-    // * test
-    @GetMapping("/hello")
-    public String hello () {
-        return "Hello Huy";
-    }
 }

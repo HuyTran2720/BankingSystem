@@ -6,13 +6,13 @@
     </head>
 
     <body class="formContainer">
-        <form>
+        <form id="logInForm">
             <p></p>
             <h1 style="font-size: x-large;"> Log In </h1>
             
-            <input type="email" placeholder="Enter Email" required> 
+            <input type="email"  id="email" placeholder="Enter Email" required> 
     
-            <input type="password" placeholder="Enter Password" name="psw" required>
+            <input type="password" id="password" placeholder="Enter Password" name="psw" required>
     
             <div class = "clearfix">
                 <button onclick="window.location.href = 'index.html';" class="cancelBtn"> Cancel </button>
@@ -26,6 +26,16 @@
 
         </form>
         <p style="font-family: Arial, Helvetica, sans-serif;"> Don't have an account? <a href="createAccount.html" style="color:dodgerblue">Sign Up</a></p>
+
+        <div id="errorMessage" style="font-family: Arial, Helvetica, sans-serif;">
+            <div class="errorContent">
+                <h1> Login Failed </h1>
+                <p> Invalid Email or Password </p>
+                <button id="okError">OK</button>
+            </div>
+        </div>
+
+        <script src="js/login.js"></script>
     </body>
 
 </html>
