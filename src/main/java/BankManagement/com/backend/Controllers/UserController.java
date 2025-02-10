@@ -4,20 +4,20 @@ import java.util.HashMap;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import BankManagement.com.backend.Entities.User;
 import BankManagement.com.backend.Repositories.UserRepository;
+import BankManagement.com.backend.Services.JwtService;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
     private final UserRepository UserRepository;
+    private final JwtService jwtService;
 
-    public UserController(UserRepository UserRepository) {
+    public UserController(UserRepository UserRepository, JwtService jwtService) {
         this.UserRepository = UserRepository;
+        this.jwtService = jwtService;
     }
 
     @PostMapping("/signup")
@@ -50,8 +50,28 @@ public class UserController {
             return ResponseEntity.status(401).body("Invalid Password");
         }
 
-        return ResponseEntity.ok(new HashMap<String, String>() {{put 
-            ("message", "Login successful");
-        }});
+        String token = jwtService.generateToken(currUser.getEmail());
+        
+        HashMap<String, String> response = new HashMap<>();
+        response.put("token", token);
+        response.put("message", "Login successful");
+        
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/user-info")
+    public ResponseEntity<?> getUserInfo (@RequestHeader("Authorization") String token) { 
+        if (token.startsWith("Bearer ")) token = token.substring(7);
+
+        String email = jwtService.extractEmail(token);
+        User user = UserRepository.findByEmail(email);
+
+        if (user == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User Not Found!");
+
+        HashMap<String, String> response = new HashMap<>();
+        response.put("email", user.getEmail());
+        response.put("name", user.getName());
+
+        return ResponseEntity.ok(response);
     }
 }

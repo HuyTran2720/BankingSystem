@@ -1,4 +1,5 @@
 // log in
+console.log("logIn.js loaded");
 document.getElementById('logInForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -29,10 +30,16 @@ document.getElementById('logInForm').addEventListener('submit', function(e) {
         return response.json();
     })
     .then(data => {
-        console.log('Log In Sucess:', data);
+        console.log('Log In Sucess:', data.message);
         console.log('Redirecting');
-        window.location.href = 'accountPage.html';
-        console.log('Redirected');
+
+        console.log("Token being set: ", data.token);
+        localStorage.setItem('token', data.token);
+
+        const tokenData = localStorage.getItem('token');
+        console.log('Token Generated: ', tokenData);
+
+        window.location.href = 'accountPage.html?token=' + encodeURIComponent(data.token);
     })
     .catch(error => {
         console.log('Error caught:', error.message);
@@ -43,3 +50,43 @@ document.getElementById('logInForm').addEventListener('submit', function(e) {
         });
     });
 });
+
+async function getUserInfo () {
+    console.log("Fetching Token");
+
+    const token = localStorage.getItem('token');
+
+    console.log("User Token ", token);
+
+    if (!token) {
+        const urlParams = new URLSearchParams(window.location.search);
+        token = urlParams.get('token');
+        if (token) {
+            token = decodeURIComponent(token);
+            localStorage.setItem('token', token);
+        } else {
+            console.log("Cant get token at all");
+            return;
+        }
+    }
+
+    console.log("User Token ", token);
+
+    console.log('Sending request to:', 'http://localhost:8081/users/user-info');
+
+    const response = await fetch("http://localhost:8081/users/user-info", {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    });
+
+    console.log("Fetch Request Received");
+    
+    if (response.ok) {
+        const data = await response.json();
+        console.log("Login with Token Success: ", data);
+    } else {
+        console.error("Couldnt Login with Token: ", await response.text());
+    }
+}
