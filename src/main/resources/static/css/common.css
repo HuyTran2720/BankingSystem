@@ -247,17 +247,21 @@ input[type=text], input[type=email], input[type=password] {
 .tab {
     width: 30%;
     flex: 1;
+    background-color: dodgerblue;
+    color: white;
 }
 
 .tab:hover {
     flex: 2;
     font-size: 18px;
+    color: black;
 }
 
 .topnav {
     position: absolute;
     top: 0;
 
-    width: 50%;
-    background-color: aqua;
+    width: 60%;
+    padding: 5px;
+    border-radius: 10px;
 }
