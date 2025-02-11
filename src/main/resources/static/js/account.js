@@ -41,7 +41,17 @@ async function getUserInfo () {
 
         console.log("Parsing");
         let hasCard = JSON.parse(data.hasCard);
-        console.log("User has Card: ", hasCard);
+        if (!hasCard) {
+            const popUp = document.getElementById("displayEmpty");
+            popUp.innerHTML = `<p> It appears you have no card! </p>`;
+            popUp.innerHTML += `<p> Would you like to create a card <a href="#" id="cardLink" style="color:dodgerblue"> here </a>? </p>`;
+
+            const createCardLink = document.getElementById("cardLink");
+            createCardLink.addEventListener("click", function(event) {
+                event.preventDefault;
+                openTab(event, "accounts");
+            });
+        }
 
         const userTitle = document.getElementById("userName");
         userTitle.innerHTML = `<h2> ${data.name} </h2>`;

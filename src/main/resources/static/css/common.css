@@ -245,7 +245,7 @@ input[type=text], input[type=email], input[type=password] {
 }
 
 .tab {
-    width: 30%;
+    width: 20%;
     flex: 1;
     background-color: dodgerblue;
     color: white;
@@ -254,14 +254,18 @@ input[type=text], input[type=email], input[type=password] {
 .tab:hover {
     flex: 2;
     font-size: 18px;
-    color: black;
+    color: lightgray;
 }
 
 .topnav {
     position: absolute;
     top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
 
-    width: 60%;
+    width: 40%;
     padding: 5px;
     border-radius: 10px;
 }
