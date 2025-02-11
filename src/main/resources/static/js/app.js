@@ -21,7 +21,8 @@ document.getElementById('accountCreation').addEventListener('submit', function(e
     const newAccount = {
         name: accountName,
         email: email,
-        password: password
+        password: password,
+        hasCard: false
     };
 
     console.log('Sending request to:', 'http://localhost:8081/users/signup');
@@ -51,6 +52,7 @@ document.getElementById('accountCreation').addEventListener('submit', function(e
     .then(data => {
         console.log('Account created:', data);
         console.log('Redirecting');
+        delay();
         window.location.href = 'logIn.html';
         console.log('Redirected');
     })
@@ -59,4 +61,8 @@ document.getElementById('accountCreation').addEventListener('submit', function(e
         console.error('Error:', error);
     });
 });
+
+async function delay () {
+    await delay(2000);
+}
 

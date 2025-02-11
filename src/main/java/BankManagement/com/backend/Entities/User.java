@@ -17,6 +17,16 @@ public class User {
 
     private String password;
 
+    private boolean hasCard;
+
+    public boolean isHasCard() {
+        return hasCard;
+    }
+
+    public void setHasCard(boolean hasCard) {
+        this.hasCard = hasCard;
+    }
+
     public Integer getId() {
         return id;
     }

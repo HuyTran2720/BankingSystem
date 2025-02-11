@@ -71,6 +71,7 @@ public class UserController {
         HashMap<String, String> response = new HashMap<>();
         response.put("email", user.getEmail());
         response.put("name", user.getName());
+        response.put("hasCard", String.valueOf(user.isHasCard()));
 
         return ResponseEntity.ok(response);
     }

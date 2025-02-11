@@ -1,8 +1,10 @@
 console.log("account.js script loaded");
 async function getUserInfo () {
+    showMesage();
     console.log("Fetching Token");
 
-    const token = localStorage.getItem('token');
+    // changed from const otherwise get errors
+    let token = localStorage.getItem('token');
 
     console.log("User Token ", token);
 
@@ -34,7 +36,24 @@ async function getUserInfo () {
     if (response.ok) {
         const data = await response.json();
         console.log("Login with Token Success: ", data);
+
+        console.log("Parsing");
+        let hasCard = JSON.parse(data.hasCard);
+        console.log("User has Card: ", hasCard);
+
+        const userTitle = document.getElementById("userName");
+        userTitle.innerHTML = `<h2> ${data.name} </h2>`;
     } else {
         console.error("Couldnt Login with Token: ", await response.text());
     }
+}
+
+function showMesage () {
+    const messageDiv = document.getElementById("message");
+
+    messageDiv.classList.add("show");
+
+    setTimeout(function() {
+        messageDiv.classList.remove("show");
+    }, 5000); 
 }
