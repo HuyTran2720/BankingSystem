@@ -24,9 +24,21 @@
             </div>
 
             <div>
-                <button> Home </button>
-                <button> Accounts </button>
-                <button> Pay </button>
+                <button class="tab" onclick="openTab(event, 'home')"> Home </button>
+                <button class="tab" onclick="openTab(event, 'accounts')"> Accounts </button>
+                <button class="tab" onclick="openTab(event, 'pay')"> Pay </button>
+            </div>
+
+            <div id="home" class="tabcontent">
+                <h3> Home </h3>
+            </div>
+
+            <div id="accounts" class="tabcontent">
+                <h3> Accounts </h3>
+            </div>
+
+            <div id="pay" class="tabcontent">
+                <h3> Pay </h3>
             </div>
         </div>
 

@@ -1,6 +1,8 @@
 console.log("account.js script loaded");
 async function getUserInfo () {
     showMesage();
+    document.getElementsByClassName("tab")[0].click();
+    
     console.log("Fetching Token");
 
     // changed from const otherwise get errors
@@ -56,4 +58,18 @@ function showMesage () {
     setTimeout(function() {
         messageDiv.classList.remove("show");
     }, 5000); 
+}
+
+function openTab (event, tabName) {
+    var i, tabContent, tab;
+    tabContent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabContent.length; i++) {
+        tabContent[i].style.display = "none";
+    }
+    tab = document.getElementsByClassName("tab");
+    for (i = 0; i < tab.length; i++) {
+        tab[i].className = tab[i].className.replace(" active", "")
+    }
+    document.getElementById(tabName).style.display = "block";
+    event.currentTarget.className += " active";
 }

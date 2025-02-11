@@ -233,3 +233,7 @@ input[type=text], input[type=email], input[type=password] {
     display: flex;
     opacity: 1;
 }
+
+.tabcontent {
+    display: none;
+}
