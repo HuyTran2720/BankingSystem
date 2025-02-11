@@ -2,7 +2,7 @@ console.log("account.js script loaded");
 async function getUserInfo () {
     showMesage();
     document.getElementsByClassName("tab")[0].click();
-    
+
     console.log("Fetching Token");
 
     // changed from const otherwise get errors
@@ -57,7 +57,7 @@ function showMesage () {
 
     setTimeout(function() {
         messageDiv.classList.remove("show");
-    }, 5000); 
+    }, 1000); // TODO : change this back to 4000 or 5000
 }
 
 function openTab (event, tabName) {
