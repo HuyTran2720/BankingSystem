@@ -249,12 +249,18 @@ input[type=text], input[type=email], input[type=password] {
     flex: 1;
     background-color: dodgerblue;
     color: white;
+    transition: ease-out 0.1s;
 }
 
 .tab:hover {
     flex: 2;
     font-size: 18px;
     color: lightgray;
+}
+
+.tab.active {
+    background-color: rgb(0, 53, 106);
+    color: white;
 }
 
 .topnav {

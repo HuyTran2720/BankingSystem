@@ -43,7 +43,7 @@ async function getUserInfo () {
         let hasCard = JSON.parse(data.hasCard);
         if (!hasCard) {
             const popUp = document.getElementById("displayEmpty");
-            popUp.innerHTML = `<p> It appears you have no card! </p>`;
+            popUp.innerHTML = `<p> It appears you have no cards! </p>`;
             popUp.innerHTML += `<p> Would you like to create a card <a href="#" id="cardLink" style="color:dodgerblue"> here</a>? </p>`;
 
             const createCardLink = document.getElementById("cardLink");
