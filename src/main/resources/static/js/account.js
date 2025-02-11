@@ -49,7 +49,7 @@ async function getUserInfo () {
             const createCardLink = document.getElementById("cardLink");
             createCardLink.addEventListener("click", function(event) {
                 event.preventDefault;
-                openTab(event, "accounts");
+                openTab(event, 'accounts');
             });
         }
 
@@ -67,7 +67,7 @@ function showMesage () {
 
     setTimeout(function() {
         messageDiv.classList.remove("show");
-    }, 1000); // TODO : change this back to 4000 or 5000
+    }, 4000); // TODO : change this back to 4000 or 5000
 }
 
 function openTab (event, tabName) {
