@@ -1,13 +1,17 @@
 package BankManagement.com.backend.Controllers;
 
 import BankManagement.com.backend.Entities.BankAccount;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import BankManagement.com.backend.Repositories.BankAccountRepository;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/Cards")
 public class BankController {
     private final BankAccountRepository bankAccountRepository;
 
@@ -29,10 +33,14 @@ public class BankController {
 
     // ! Create
     // * saving a new account
-    @PostMapping("/Accounts")
-    public BankAccount createAccount (@RequestBody BankAccount newAccount) {
-        BankAccount createdAccount = this.bankAccountRepository.save(newAccount);
-        return createdAccount;
+    @PostMapping("/CreateAccount")
+    public ResponseEntity<?> createAccount (@RequestBody BankAccount newAccount) {
+
+        this.bankAccountRepository.save(newAccount);
+
+        return ResponseEntity.ok(new HashMap<String, String>() {{put 
+            ("message", "Card Creation Successful");
+        }});
     }
 
     // ! Update

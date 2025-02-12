@@ -1,4 +1,6 @@
 console.log("account.js script loaded");
+let data = null;
+
 async function getUserInfo () {
     showMesage();
     document.getElementsByClassName("tab")[3].click();
@@ -37,7 +39,7 @@ async function getUserInfo () {
     console.log("Fetch Request Received");
     
     if (response.ok) {
-        const data = await response.json();
+        data = await response.json();
         console.log("Login with Token Success: ", data);
 
         console.log("Parsing");
@@ -85,6 +87,7 @@ function openTab (event, tabName) {
     event.currentTarget.className += " active";
 }
 
+// CREATING CARD
 document.getElementById('cardCreation').addEventListener('submit', function (e) {
     e.preventDefault();
 
@@ -93,8 +96,48 @@ document.getElementById('cardCreation').addEventListener('submit', function (e) 
     const savings = document.getElementById('accountType').checked;
 
     console.log("Form Data: ", {amount, pin});
+
+    let account_type = "Credit Account";
     if(savings) {
         console.log("Savings Account");
+        account_type = "Savings Account";
+    } else {
+        console.log("Credit Account");
     }
+
+    const newCard = {
+        name: data.name,
+        balance: amount,
+        email: data.email,
+        account_type: account_type,
+        pin: pin
+    };
+
+    console.log("Sending Data: ", newCard, 'http://localhost:8081/Cards/CreateAccount');
+
+    fetch ('http://localhost:8081/Cards/CreateAccount', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newCard)
+    })
+    .then(response => {
+        console.log('Response received:', response.status); 
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        return response.json();
+    })
+    .then(data => {
+        console.log('Card created:', data);
+        console.log('Redirecting');
+    })
+    .catch(error => {
+        console.log('Error caught:', error.message);
+        console.error('Error:', error);
+    });
 
 });
