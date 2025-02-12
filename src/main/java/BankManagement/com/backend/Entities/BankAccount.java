@@ -9,19 +9,29 @@ public class BankAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    // * use from users data
     @Column (name = "account_name")
     private String accountName;
 
     @Column (name = "account_balance")
     private Integer accountBalance;
 
+    // * use from users data
     @Column (name = "email")
     private String email;
 
     @Column (name = "account_type")
     private String accountType;
 
-    // add password
+    private int account_pin;
+
+    public int getAccount_pin() {
+        return account_pin;
+    }
+
+    public void setAccount_pin(int account_pin) {
+        this.account_pin = account_pin;
+    }
 
     public Integer getId() {
         return id;

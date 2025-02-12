@@ -1,7 +1,8 @@
 console.log("account.js script loaded");
 async function getUserInfo () {
     showMesage();
-    document.getElementsByClassName("tab")[0].click();
+    document.getElementsByClassName("tab")[3].click();
+    // TODO: CHANGE BACK TO 0
 
     console.log("Fetching Token");
 
@@ -67,7 +68,7 @@ function showMesage () {
 
     setTimeout(function() {
         messageDiv.classList.remove("show");
-    }, 4000); // TODO : change this back to 4000 or 5000
+    }, 0); //TODO: CHANGE BACK TO 4000
 }
 
 function openTab (event, tabName) {
@@ -83,3 +84,7 @@ function openTab (event, tabName) {
     document.getElementById(tabName).style.display = "block";
     event.currentTarget.className += " active";
 }
+
+async function createCard () {
+
+}  
