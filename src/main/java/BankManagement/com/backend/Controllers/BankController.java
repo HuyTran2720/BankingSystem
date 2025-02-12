@@ -46,7 +46,9 @@ public class BankController {
         if (account.getAccountName() != null) {
             accountToUpdate.setAccountName(account.getAccountName());
         }
-        if (account.getAccountBalance() != null) {
+
+        Float nullfloat = null;
+        if (account.getAccountBalance() != nullfloat) {
             accountToUpdate.setAccountBalance(account.getAccountBalance());
         }
         if (account.getAccountType() != null) {

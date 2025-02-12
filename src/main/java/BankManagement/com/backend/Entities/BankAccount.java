@@ -14,7 +14,7 @@ public class BankAccount {
     private String accountName;
 
     @Column (name = "account_balance")
-    private Integer accountBalance;
+    private float accountBalance;
 
     // * use from users data
     @Column (name = "email")
@@ -49,11 +49,11 @@ public class BankAccount {
         this.accountName = accountName;
     }
 
-    public Integer getAccountBalance() {
+    public float getAccountBalance() {
         return accountBalance;
     }
 
-    public void setAccountBalance(Integer accountBalance) {
+    public void setAccountBalance(float accountBalance) {
         this.accountBalance = accountBalance;
     }
 

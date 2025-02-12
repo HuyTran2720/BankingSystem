@@ -85,6 +85,16 @@ function openTab (event, tabName) {
     event.currentTarget.className += " active";
 }
 
-async function createCard () {
+document.getElementById('cardCreation').addEventListener('submit', function (e) {
+    e.preventDefault();
 
-}  
+    const amount = parseFloat(document.getElementById('amount').value);
+    const pin = parseInt(document.getElementById('pin').value, 10);
+    const savings = document.getElementById('accountType').checked;
+
+    console.log("Form Data: ", {amount, pin});
+    if(savings) {
+        console.log("Savings Account");
+    }
+
+});
