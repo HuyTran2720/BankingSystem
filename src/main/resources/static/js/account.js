@@ -158,7 +158,6 @@ function updateHasCard (isTrue) {
             'hasCard_changed': String(isTrue),
             'userEmail': data.email.trim()
         },
-        body: JSON.stringify({})
     })
     .then(response => {
         console.log('Response received:', response.status); 
@@ -167,7 +166,6 @@ function updateHasCard (isTrue) {
             throw new Error('Network response was not ok');
         }
 
-        return response.json();
     })
     .then(data => {
         console.log('Card Updated');
