@@ -133,6 +133,10 @@ document.getElementById('cardCreation').addEventListener('submit', function (e) 
     })
     .then(data => {
         console.log('Card created:', data);
+
+        console.log('Updating hasCard');
+        updateHasCard(true);
+
         console.log('Redirecting');
     })
     .catch(error => {
@@ -141,3 +145,36 @@ document.getElementById('cardCreation').addEventListener('submit', function (e) 
     });
 
 });
+
+function updateHasCard (isTrue) {
+    console.log("updating with email: ", data.email);
+    console.log("hasCard: ", String(isTrue));
+
+    fetch ('http://localhost:8081/users/user-info', {
+
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'hasCard_changed': String(isTrue),
+            'userEmail': data.email.trim()
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => {
+        console.log('Response received:', response.status); 
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        return response.json();
+    })
+    .then(data => {
+        console.log('Card Updated');
+    })
+    .catch(error => {
+        console.log("Card Couldnt be Updated");
+        console.log('Error caught:', error.message);
+        console.error('Error:', error);
+    });
+}

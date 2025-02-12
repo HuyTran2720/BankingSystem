@@ -75,4 +75,23 @@ public class UserController {
 
         return ResponseEntity.ok(response);
     }
+
+    @CrossOrigin(origins = "*")
+    @PutMapping("/user-info")
+    public ResponseEntity<?> updateInfo (@RequestHeader("hasCard_changed") String isTrue,
+    @RequestHeader("userEmail") String email) {
+
+        User currUser = this.UserRepository.findByEmail(email);
+        if (currUser == null) {
+            return ResponseEntity.status(401).body("Invalid Email");
+        }
+
+        System.out.println("Found Valid Account");
+
+        boolean hasCard = Boolean.parseBoolean(isTrue);
+        currUser.setHasCard(hasCard);
+        UserRepository.save(currUser);
+
+        return ResponseEntity.ok().body(null);
+    }
 }
