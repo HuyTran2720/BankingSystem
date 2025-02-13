@@ -62,6 +62,7 @@ async function getUserInfo () {
         userTitle.innerHTML = `<h2> ${data.name} </h2>`;
     } else {
         console.error("Couldnt Login with Token: ", await response.text());
+        window.location.href = 'http://localhost:8081/login.html';
     }
 }
 

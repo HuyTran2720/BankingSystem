@@ -38,9 +38,10 @@ public class BankController {
 
         this.bankAccountRepository.save(newAccount);
 
-        return ResponseEntity.ok(new HashMap<String, String>() {{put 
-            ("message", "Card Creation Successful");
-        }});
+        HashMap<String, String> response = new HashMap<>();
+        response.put("message", "Added new Bank Account");
+
+        return ResponseEntity.ok(response);
     }
 
     // ! Update
