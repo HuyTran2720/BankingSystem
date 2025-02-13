@@ -207,11 +207,12 @@ function addCards () {
 
         const cards = document.getElementById("displayCard");
         let userEmail = data.email;
+        cards.innerHTML = "";
 
         for (let currCard of data) {
             let card = currCard.email;
             if (card.localeCompare(userEmail)) {
-                cards.innerHTML = 
+                cards.innerHTML += 
                 `
 
                 <div>
