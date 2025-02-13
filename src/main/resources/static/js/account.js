@@ -1,8 +1,7 @@
 console.log("account.js script loaded");
-let data = null;
+let userData = null;
 
 async function getUserInfo () {
-    showMesage();
     document.getElementsByClassName("tab")[0].click();
     // TODO: CHANGE BACK TO 0
 
@@ -39,11 +38,11 @@ async function getUserInfo () {
     console.log("Fetch Request Received");
     
     if (response.ok) {
-        data = await response.json();
-        console.log("Login with Token Success: ", data);
+        userData = await response.json();
+        console.log("Login with Token Success: ", userData);
 
         console.log("Parsing");
-        let hasCard = JSON.parse(data.hasCard);
+        let hasCard = JSON.parse(userData.hasCard);
         if (!hasCard) {
             const popUp = document.getElementById("displayEmpty");
             popUp.innerHTML = `<p> It appears you have no cards! </p>`;
@@ -59,11 +58,12 @@ async function getUserInfo () {
         }
 
         const userTitle = document.getElementById("userName");
-        userTitle.innerHTML = `<h2> ${data.name} </h2>`;
+        userTitle.innerHTML = `<h2> ${userData.name} </h2>`;
     } else {
         console.error("Couldnt Login with Token: ", await response.text());
         window.location.href = 'http://localhost:8081/login.html';
     }
+    showMesage();
 }
 
 function showMesage () {
@@ -73,7 +73,7 @@ function showMesage () {
 
     setTimeout(function() {
         messageDiv.classList.remove("show");
-    }, 0); //TODO: CHANGE BACK TO 4000
+    }, 1000); //TODO: CHANGE BACK TO 4000
 }
 
 function openTab (event, tabName) {
@@ -109,9 +109,9 @@ document.getElementById('cardCreation').addEventListener('submit', function (e) 
     }
 
     const newCard = {
-        accountName: data.name,
+        accountName: userData.name,
         accountBalance: amount,
-        email: data.email,
+        email: userData.email,
         accountType: account_type,
         account_pin: pin
     };
@@ -155,7 +155,7 @@ document.getElementById('cardCreation').addEventListener('submit', function (e) 
 });
 
 function updateHasCard (isTrue) {
-    console.log("updating with email: ", data.email);
+    console.log("updating with email: ", userData.email);
     console.log("hasCard: ", String(isTrue));
 
     fetch ('http://localhost:8081/users/user-info', {
@@ -164,7 +164,7 @@ function updateHasCard (isTrue) {
         headers: {
             'Content-Type': 'application/json',
             'hasCard_changed': String(isTrue),
-            'userEmail': data.email.trim()
+            'userEmail': userData.email.trim()
         },
     })
     .then(response => {
@@ -206,12 +206,13 @@ function addCards () {
         console.log('Card Data: ', data);
 
         const cards = document.getElementById("displayCard");
-        let userEmail = data.email;
+        let userEmail = userData.email;
         cards.innerHTML = "";
 
         for (let currCard of data) {
             let card = currCard.email;
-            if (card.localeCompare(userEmail)) {
+            console.log("comparing: ", userEmail, " and ", card);
+            if (card === userEmail) {
                 cards.innerHTML += 
                 `
 
