@@ -206,6 +206,23 @@ function addCards () {
         console.log('Card Data: ', data);
 
         const cards = document.getElementById("displayCard");
+        let userEmail = data.email;
+
+        for (let currCard of data) {
+            let card = currCard.email;
+            if (card.localeCompare(userEmail)) {
+                cards.innerHTML = 
+                `
+
+                <div>
+                    <p> Account Name: ${currCard.accountName} </p>
+                    <p> Account Balance: ${currCard.accountBalance} </p>
+                    <p> Account Type: ${currCard.accountType} </p>
+                </div>
+
+                `;
+            }
+        }
 
     })
     .catch(error => {
