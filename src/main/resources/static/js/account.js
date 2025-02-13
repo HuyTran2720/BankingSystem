@@ -109,11 +109,11 @@ document.getElementById('cardCreation').addEventListener('submit', function (e) 
     }
 
     const newCard = {
-        name: data.name,
-        balance: amount,
+        accountName: data.name,
+        accountBalance: amount,
         email: data.email,
-        account_type: account_type,
-        pin: pin
+        accountType: account_type,
+        account_pin: pin
     };
 
     console.log("Sending Data: ", newCard, 'http://localhost:8081/Cards/CreateAccount');
@@ -141,6 +141,11 @@ document.getElementById('cardCreation').addEventListener('submit', function (e) 
         updateHasCard(true);
 
         console.log('Redirecting');
+
+        // refreshes page in order to show cards
+        setTimeout(function() {
+            window.location.reload();
+        }, 1500);
     })
     .catch(error => {
         console.log('Error caught:', error.message);
@@ -199,6 +204,9 @@ function addCards () {
     .then(data => {
         console.log('Cards Adding');
         console.log('Card Data: ', data);
+
+        const cards = document.getElementById("displayCard");
+
     })
     .catch(error => {
         console.log("Cards Couldnt be Added");

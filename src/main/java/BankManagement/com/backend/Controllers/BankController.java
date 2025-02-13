@@ -35,11 +35,10 @@ public class BankController {
     // * saving a new account
     @PostMapping("/CreateAccount")
     public ResponseEntity<?> createAccount (@RequestBody BankAccount newAccount) {
+        HashMap<String, BankAccount> response = new HashMap<>();
+        response.put("message", newAccount);
 
         this.bankAccountRepository.save(newAccount);
-
-        HashMap<String, String> response = new HashMap<>();
-        response.put("message", "Added new Bank Account");
 
         return ResponseEntity.ok(response);
     }
