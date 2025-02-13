@@ -56,9 +56,11 @@ async function getUserInfo () {
         } else {
             addCards();
         }
-
-        const userTitle = document.getElementById("userName");
-        userTitle.innerHTML = `<h2> ${userData.name} </h2>`;
+        
+        const userTitles = document.getElementsByClassName("userName");
+        for (let userTitle of userTitles) {
+            userTitle.innerHTML = `<h2> ${userData.name} </h2>`;
+        }
     } else {
         console.error("Couldnt Login with Token: ", await response.text());
         window.location.href = 'http://localhost:8081/login.html';
@@ -73,7 +75,7 @@ function showMesage () {
 
     setTimeout(function() {
         messageDiv.classList.remove("show");
-    }, 1000); //TODO: CHANGE BACK TO 4000
+    }, 4000); //TODO: CHANGE BACK TO 4000
 }
 
 function openTab (event, tabName) {
