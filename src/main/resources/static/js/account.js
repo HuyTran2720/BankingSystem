@@ -3,7 +3,7 @@ let data = null;
 
 async function getUserInfo () {
     showMesage();
-    document.getElementsByClassName("tab")[3].click();
+    document.getElementsByClassName("tab")[0].click();
     // TODO: CHANGE BACK TO 0
 
     console.log("Fetching Token");
@@ -54,6 +54,8 @@ async function getUserInfo () {
                 event.preventDefault;
                 openTab(event, 'accounts');
             });
+        } else {
+            addCards();
         }
 
         const userTitle = document.getElementById("userName");
@@ -172,6 +174,33 @@ function updateHasCard (isTrue) {
     })
     .catch(error => {
         console.log("Card Couldnt be Updated");
+        console.log('Error caught:', error.message);
+        console.error('Error:', error);
+    });
+}
+
+function addCards () {
+    fetch ('http://localhost:8081/Cards/Accounts', {
+
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        console.log('Response received:', response.status); 
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Cards Adding');
+        console.log('Card Data: ', data);
+    })
+    .catch(error => {
+        console.log("Cards Couldnt be Added");
         console.log('Error caught:', error.message);
         console.error('Error:', error);
     });

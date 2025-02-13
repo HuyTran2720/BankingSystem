@@ -16,64 +16,67 @@
 
         <!-- content portion -->
         <div class = "mainPage">
-            <div id="message">
-                <h2 style="color: dodgerblue; font-size: xx-large; -webkit-text-stroke: 1px;  -webkit-text-stroke-color: dodgerblue; margin-bottom: 5px;"> 
-                    Welcome to Cloud Banking
-                </h2>
-                <h2 id="userName" style="margin-top: 0%;"> NULL USER </h2>
+            <div class="mainContent">
+                <div id="message">
+                    <h2 style="color: dodgerblue; font-size: xx-large; -webkit-text-stroke: 1px;  -webkit-text-stroke-color: dodgerblue; margin-bottom: 5px;"> 
+                        Welcome to Cloud Banking
+                    </h2>
+                    <h2 id="userName" style="margin-top: 0%;"> NULL USER </h2>
+                </div>
+    
+                <div class="topnav">
+                    <button class="tab" onclick="openTab(event, 'home')"> Home </button>
+                    <button class="tab" onclick="openTab(event, 'accounts')"> Accounts </button>
+                    <button class="tab" onclick="openTab(event, 'pay')"> Pay </button>
+                </div>
+    
+                <!-- TAB: PAYING -->
+                <div id="home" class="tabcontent">
+                    <h3 id="displayEmpty"> Empty </h3>
+                    <h3 id="displayCard"> Cards </h3>
+                </div>
+    
+                <!-- TAB: PAYING -->
+                <div id="accounts" class="tabcontent">
+                    <h3> Accounts </h3>
+                    <button class="tab" onclick="openTab(event, 'createCard')"> Create Card </button>
+                    <button class="tab" onclick="openTab(event, 'updateCard')"> Update Card </button>
+                    <button class="tab" onclick="openTab(event, 'deleteCard')"> Delete Card </button>
+    
+                </div>
+    
+                    <!-- creating cards -->
+                <div id="createCard" class="tabcontent">
+                    <form id="cardCreation">
+    
+                        <h3> Create Card</h3>
+                        <input type="number" id="amount" placeholder="$" required>
+                        <input type="number" id="pin" placeholder="Enter 4 Digit Pin" required>
+                        <label> 
+                            <input type="checkbox" id="accountType">
+                            Savings Account
+                        </label>
+                        <button type="submit" class="confirmBtn"> Confirm </button>
+    
+                    </form>
+                </div>
+    
+                    <!-- updating cards -->
+                <div id="updateCard" class="tabcontent">
+    
+                </div>
+    
+                    <!-- deleting cards -->
+                <div id="deleteCard" class="tabcontent">
+    
+                </div>
+    
+                <!-- TAB: PAYING -->
+                <div id="pay" class="tabcontent">
+                    <h3> Pay </h3>
+                </div>
             </div>
-
-            <div class="topnav">
-                <button class="tab" onclick="openTab(event, 'home')"> Home </button>
-                <button class="tab" onclick="openTab(event, 'accounts')"> Accounts </button>
-                <button class="tab" onclick="openTab(event, 'pay')"> Pay </button>
-            </div>
-
-            <!-- TAB: PAYING -->
-            <div id="home" class="tabcontent">
-                <h3 id="displayEmpty"> Empty </h3>
-                <h3 id="displayCard"> Cards </h3>
-            </div>
-
-            <!-- TAB: PAYING -->
-            <div id="accounts" class="tabcontent">
-                <h3> Accounts </h3>
-                <button class="tab" onclick="openTab(event, 'createCard')"> Create Card </button>
-                <button class="tab" onclick="openTab(event, 'updateCard')"> Update Card </button>
-                <button class="tab" onclick="openTab(event, 'deleteCard')"> Delete Card </button>
-
-            </div>
-
-                <!-- creating cards -->
-            <div id="createCard" class="tabcontent">
-                <form id="cardCreation">
-
-                    <h3> Create Card</h3>
-                    <input type="number" id="amount" placeholder="$" required>
-                    <input type="number" id="pin" placeholder="Enter 4 Digit Pin" required>
-                    <label> 
-                        <input type="checkbox" id="accountType">
-                        Savings Account
-                    </label>
-                    <button type="submit" class="confirmBtn"> Confirm </button>
-
-                </form>
-            </div>
-
-                <!-- updating cards -->
-            <div id="updateCard" class="tabcontent">
-
-            </div>
-
-                <!-- deleting cards -->
-            <div id="deleteCard" class="tabcontent">
-
-            </div>
-
-            <!-- TAB: PAYING -->
-            <div id="pay" class="tabcontent">
-                <h3> Pay </h3>
-            </div>
+            
         </div>
 
         <!-- footer portion -->
