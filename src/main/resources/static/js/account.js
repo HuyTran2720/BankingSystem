@@ -352,6 +352,9 @@ document.getElementById("deletingForm").addEventListener("submit", function(even
     })
     .then(data => {
         console.log("Card Deleted");
+        if (data.length == null) {
+            updateHasCard(false);
+        }
         window.location.reload();
     })
     .catch(error => {
