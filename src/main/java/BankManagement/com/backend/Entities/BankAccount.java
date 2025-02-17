@@ -1,13 +1,27 @@
 package BankManagement.com.backend.Entities;
 import jakarta.persistence.*;
+import java.util.Random;
+
+// import org.springframework.beans.factory.annotation.Value;
 
 @Entity
 @Table(name = "accounts")
 public class BankAccount {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @PrePersist
+    void generateId () {
+        if (this.id == null)
+        this.id = randomGeneratedId();
+    }
+
+    int randomGeneratedId () {
+        Random generator = new Random();
+        return 10000000 + generator.nextInt(90000000);
+    }
 
     // * use from users data
     @Column (name = "account_name")

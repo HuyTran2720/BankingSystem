@@ -100,6 +100,11 @@ document.getElementById('cardCreation').addEventListener('submit', function (e) 
     const pin = parseInt(document.getElementById('pin').value, 10);
     const savings = document.getElementById('accountType').checked;
 
+    if (pin.toString().length != 4) {
+        console.error("PIN must be 4 digits!");
+        return;
+    }
+
     console.log("Form Data: ", {amount, pin});
 
     let account_type = "Credit Account";
@@ -145,6 +150,7 @@ document.getElementById('cardCreation').addEventListener('submit', function (e) 
         console.log('Redirecting');
 
         // refreshes page in order to show cards
+        // TODO: add loading circle to indicate
         setTimeout(function() {
             window.location.reload();
         }, 1500);
@@ -215,13 +221,30 @@ function addCards () {
             let card = currCard.email;
             console.log("comparing: ", userEmail, " and ", card);
             if (card === userEmail) {
+                let cardString = currCard.id.toString();
+                let midPoint = Math.floor(cardString.length / 2);
+                let cardNumber = cardString.slice(0, midPoint) + '-' + cardString.slice(midPoint);
+
                 cards.innerHTML += 
                 `
 
-                <div>
-                    <p> Account Name: ${currCard.accountName} </p>
-                    <p> Account Balance: ${currCard.accountBalance} </p>
-                    <p> Account Type: ${currCard.accountType} </p>
+                <div 
+                style="background-color: rgb(205, 206, 207); 
+                border-radius: 5px; 
+                margin-right: auto; 
+                border: 1px solid black;
+                width: 80%;
+                padding: 5px;
+                "
+                >
+                    <h4> ${currCard.accountType} </h4>
+                    <h5> ${cardNumber} </h5>
+                    <p> ${currCard.accountName} </p>
+                    <div style="display: flex;"> 
+                        <p> Balance:</p>
+                        <p style="margin-left: auto"> $${currCard.accountBalance.toFixed(2)} </p>
+                    </div>
+
                 </div>
 
                 `;
