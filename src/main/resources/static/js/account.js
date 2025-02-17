@@ -263,6 +263,9 @@ function addCards () {
 }
 
 document.getElementById("removeCard").addEventListener("click", function() {
+    const cards = document.getElementById("cardDeletion");
+    cards.innerHTML = "";
+
     fetch ('http://localhost:8081/Cards/Accounts', {
 
         method: 'GET',
@@ -282,7 +285,6 @@ document.getElementById("removeCard").addEventListener("click", function() {
         console.log('Cards Adding');
         console.log('Card Data: ', data);
 
-        const cards = document.getElementById("cardDeletion");
         let userEmail = userData.email;
         
         for (let currCard of data) {
@@ -301,6 +303,7 @@ document.getElementById("removeCard").addEventListener("click", function() {
                 border-radius: 5px; 
                 margin-right: auto; 
                 border: 1px solid black;
+                width: 100% !important;
                 padding: 5px;
                 "
                 >
@@ -310,10 +313,7 @@ document.getElementById("removeCard").addEventListener("click", function() {
                      ${cardNumber} 
                      ${currCard.accountName} 
                      </p>
-                    <div style="display: flex;"> 
-                        <p> Balance:</p>
-                        <p style="margin-left: auto"> $${currCard.accountBalance.toFixed(2)} </p>
-                    </div>
+                        <p> Balance: $${currCard.accountBalance.toFixed(2)} </p>
 
                 </div>
 
