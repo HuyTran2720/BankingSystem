@@ -55,10 +55,13 @@ public class BankController {
             accountToUpdate.setAccountName(account.getAccountName());
         }
 
+        /*
         Float nullfloat = null;
         if (account.getAccountBalance() != nullfloat) {
             accountToUpdate.setAccountBalance(account.getAccountBalance());
         }
+        */
+        
         if (account.getAccountType() != null) {
             accountToUpdate.setAccountType(account.getAccountType());
         }

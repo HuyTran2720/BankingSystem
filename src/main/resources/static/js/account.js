@@ -42,6 +42,7 @@ async function getUserInfo () {
         console.log("Login with Token Success: ", userData);
 
         console.log("Parsing");
+        checkForCards();
         let hasCard = JSON.parse(userData.hasCard);
         if (!hasCard) {
             const popUp = document.getElementById("displayEmpty");
@@ -66,6 +67,38 @@ async function getUserInfo () {
         window.location.href = 'http://localhost:8081/login.html';
     }
     showMesage();
+}
+
+function checkForCards () {
+    fetch ('http://localhost:8081/Cards/Accounts', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => {
+        console.log('Response received:', response.status); 
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        return response.json();
+    })
+    .then(data => {
+        console.log('Cards:', data);
+        if (data.length == 0) {
+            console.log("No longer has cards");
+            updateHasCard(false);
+        } else {
+            updateHasCard(true);
+        }
+
+    })
+    .catch(error => {
+        console.log('Error caught:', error.message);
+        console.error('Error:', error);
+    });
 }
 
 function showMesage () {
@@ -307,7 +340,7 @@ document.getElementById("removeCard").addEventListener("click", function() {
                 padding: 5px;
                 "
                 >
-                    <input type="radio" name="currentCard" value="${currCard.id}">
+                    <input type="radio" name="currentCard" value="${currCard.id}|${currCard.account_pin}">
                     <p> 
                      ${currCard.accountType} 
                      ${cardNumber} 
@@ -335,7 +368,17 @@ document.getElementById("deletingForm").addEventListener("submit", function(even
     let selectedAccount = document.querySelector('input[name="currentCard"]:checked');
     console.log(selectedAccount);
     if (selectedAccount) {
-        fetch (`http://localhost:8081/Cards/Accounts/${selectedAccount.value}`, {
+        const vals = selectedAccount.value.split('|');
+        let userID = vals[0];
+        let userPin = vals[1];
+        let enteredPin = document.getElementById("deletePIN").value;
+        console.log("Comparing ", userPin, " with entered: ", enteredPin);
+        if (enteredPin != userPin) {
+            console.log("INCORRECT PIN ENTERED");
+            return;
+        }
+
+        fetch (`http://localhost:8081/Cards/Accounts/${userID}`, {
 
         method: 'DELETE',
         headers: {
@@ -352,15 +395,16 @@ document.getElementById("deletingForm").addEventListener("submit", function(even
     })
     .then(data => {
         console.log("Card Deleted");
-        if (data.length == null) {
-            updateHasCard(false);
-        }
-        window.location.reload();
+        checkForCards();
+        // TODO: add loading circle to indicate
+        setTimeout(function() {
+            window.location.reload();
+        }, 1500);
     })
     .catch(error => {
         console.log("Cards Couldnt be Deleted");
         console.log('Error caught:', error.message);
         console.error('Error:', error);
     });
-    }
+    } else console.log("Couldnt find user");
 });
