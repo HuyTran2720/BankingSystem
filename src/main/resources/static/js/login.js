@@ -39,7 +39,10 @@ document.getElementById('logInForm').addEventListener('submit', function(e) {
         const tokenData = localStorage.getItem('token');
         console.log('Token Generated: ', tokenData);
 
-        window.location.href = 'accountPage.html?token=' + encodeURIComponent(data.token);
+        // TODO: add loading circle to indicate
+        setTimeout(function() {
+            window.location.href = 'accountPage.html?token=' + encodeURIComponent(data.token);
+        }, 1500);
     })
     .catch(error => {
         console.log('Error caught:', error.message);

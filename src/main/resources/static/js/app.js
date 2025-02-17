@@ -52,8 +52,9 @@ document.getElementById('accountCreation').addEventListener('submit', function(e
     .then(data => {
         console.log('Account created:', data);
         console.log('Redirecting');
-        delay();
-        window.location.href = 'logIn.html';
+        setTimeout (function() {
+            window.location.href = 'logIn.html';
+        }, 1500)
         console.log('Redirected');
     })
     .catch(error => {
@@ -61,8 +62,4 @@ document.getElementById('accountCreation').addEventListener('submit', function(e
         console.error('Error:', error);
     });
 });
-
-async function delay () {
-    await delay(2000);
-}
 
