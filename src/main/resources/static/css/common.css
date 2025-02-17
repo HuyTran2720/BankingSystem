@@ -214,7 +214,7 @@ input[type=text], input[type=email], input[type=password] {
 }
 
 #message {
-    position: fixed;
+    position: absolute;
     left: 50%; 
     transform: translateX(-50%);
     visibility: hidden;

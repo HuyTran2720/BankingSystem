@@ -75,7 +75,7 @@ function showMesage () {
 
     setTimeout(function() {
         messageDiv.classList.remove("show");
-    }, 4000); //TODO: CHANGE BACK TO 4000
+    }, 0); //TODO: CHANGE BACK TO 4000
 }
 
 function openTab (event, tabName) {
@@ -213,10 +213,78 @@ function addCards () {
         console.log('Cards Adding');
         console.log('Card Data: ', data);
 
-        const cards = document.getElementById("displayCard");
+        const cards = document.getElementsByClassName("displayCard");
         let userEmail = userData.email;
         cards.innerHTML = "";
 
+        for (let cardContainer of cards) {
+            cardContainer.innerHTML = "";
+            for (let currCard of data) {
+                let card = currCard.email;
+                console.log("comparing: ", userEmail, " and ", card);
+                if (card === userEmail) {
+                    let cardString = currCard.id.toString();
+                    let midPoint = Math.floor(cardString.length / 2);
+                    let cardNumber = cardString.slice(0, midPoint) + '-' + cardString.slice(midPoint);
+    
+                    cardContainer.innerHTML += 
+                    `
+    
+                    <div 
+                    style="background-color: rgb(205, 206, 207); 
+                    border-radius: 5px; 
+                    margin-right: auto; 
+                    border: 1px solid black;
+                    width: 80%;
+                    padding: 5px;
+                    "
+                    >
+                        <h4> ${currCard.accountType} </h4>
+                        <h5> ${cardNumber} </h5>
+                        <p> ${currCard.accountName} </p>
+                        <div style="display: flex;"> 
+                            <p> Balance:</p>
+                            <p style="margin-left: auto"> $${currCard.accountBalance.toFixed(2)} </p>
+                        </div>
+    
+                    </div>
+    
+                    `;
+                }
+            }
+        }
+
+    })
+    .catch(error => {
+        console.log("Cards Couldnt be Added");
+        console.log('Error caught:', error.message);
+        console.error('Error:', error);
+    });
+}
+
+document.getElementById("removeCard").addEventListener("click", function() {
+    fetch ('http://localhost:8081/Cards/Accounts', {
+
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        console.log('Response received:', response.status); 
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Cards Adding');
+        console.log('Card Data: ', data);
+
+        const cards = document.getElementById("cardDeletion");
+        let userEmail = userData.email;
+        
         for (let currCard of data) {
             let card = currCard.email;
             console.log("comparing: ", userEmail, " and ", card);
@@ -227,19 +295,21 @@ function addCards () {
 
                 cards.innerHTML += 
                 `
-
                 <div 
                 style="background-color: rgb(205, 206, 207); 
+                display: inline;
                 border-radius: 5px; 
                 margin-right: auto; 
                 border: 1px solid black;
-                width: 80%;
                 padding: 5px;
                 "
                 >
-                    <h4> ${currCard.accountType} </h4>
-                    <h5> ${cardNumber} </h5>
-                    <p> ${currCard.accountName} </p>
+                    <input type="radio" name="currentCard" value="${currCard.id}">
+                    <p> 
+                     ${currCard.accountType} 
+                     ${cardNumber} 
+                     ${currCard.accountName} 
+                     </p>
                     <div style="display: flex;"> 
                         <p> Balance:</p>
                         <p style="margin-left: auto"> $${currCard.accountBalance.toFixed(2)} </p>
@@ -257,4 +327,37 @@ function addCards () {
         console.log('Error caught:', error.message);
         console.error('Error:', error);
     });
-}
+});
+
+document.getElementById("deletingForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    console.log("Deleting Card");
+    let selectedAccount = document.querySelector('input[name="currentCard"]:checked');
+    console.log(selectedAccount);
+    if (selectedAccount) {
+        fetch (`http://localhost:8081/Cards/Accounts/${selectedAccount.value}`, {
+
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        console.log('Response received:', response.status); 
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Card Deleted");
+        window.location.reload();
+    })
+    .catch(error => {
+        console.log("Cards Couldnt be Deleted");
+        console.log('Error caught:', error.message);
+        console.error('Error:', error);
+    });
+    }
+});

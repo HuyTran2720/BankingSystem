@@ -38,7 +38,7 @@
                 "
                 >
                     <div id="displayEmpty"></div>
-                    <div id="displayCard" style="display: inline;"></div>
+                    <div class="displayCard" style="display: inline;"></div>
 
                 </div>
     
@@ -47,7 +47,7 @@
                     <h3> Accounts </h3>
                     <button class="tab" onclick="openTab(event, 'createCard')"> Create Card </button>
                     <button class="tab" onclick="openTab(event, 'updateCard')"> Update Card </button>
-                    <button class="tab" onclick="openTab(event, 'deleteCard')"> Delete Card </button>
+                    <button id="removeCard" class="tab" onclick="openTab(event, 'deleteCard')"> Delete Card </button>
     
                 </div>
     
@@ -69,12 +69,16 @@
     
                     <!-- updating cards -->
                 <div id="updateCard" class="tabcontent">
-    
                 </div>
     
                     <!-- deleting cards -->
-                <div id="deleteCard" class="tabcontent">
-    
+                <div id="deleteCard" class="tabcontent" style="
+                width: 100%;
+                ">
+                    <form id="deletingForm" style="width: 100%;">
+                        <div id="cardDeletion"></div>
+                        <input type="submit">
+                    </form>
                 </div>
     
                 <!-- TAB: PAYING -->
