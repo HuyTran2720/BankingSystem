@@ -56,9 +56,10 @@ document.getElementById('accountCreation').addEventListener('submit', function(e
         console.log("playing loader");
         document.getElementById("signupLoader").style.display = 'flex';
         console.log("loading being played");
+        let timer = Math.floor(Math.random() * 2000 + 2000);
         setTimeout (function() {
             window.location.href = 'logIn.html';
-        }, 1500)
+        }, timer)
         console.log('Redirected');
     })
     .catch(error => {

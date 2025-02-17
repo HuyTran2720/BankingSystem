@@ -39,10 +39,11 @@ document.getElementById('logInForm').addEventListener('submit', function(e) {
         const tokenData = localStorage.getItem('token');
         console.log('Token Generated: ', tokenData);
 
-        // TODO: add loading circle to indicate
+        document.getElementById("signupLoader").style.display = 'flex';
+        let timer = Math.floor(Math.random() * 2000 + 2000);
         setTimeout(function() {
             window.location.href = 'accountPage.html?token=' + encodeURIComponent(data.token);
-        }, 1500);
+        }, timer);
     })
     .catch(error => {
         console.log('Error caught:', error.message);

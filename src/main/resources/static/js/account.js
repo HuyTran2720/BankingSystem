@@ -3,7 +3,6 @@ let userData = null;
 
 async function getUserInfo () {
     document.getElementsByClassName("tab")[0].click();
-    // TODO: CHANGE BACK TO 0
 
     console.log("Fetching Token");
 
@@ -108,7 +107,7 @@ function showMesage () {
 
     setTimeout(function() {
         messageDiv.classList.remove("show");
-    }, 0); //TODO: CHANGE BACK TO 4000
+    }, 4000); //TODO: CHANGE BACK TO 4000
 }
 
 function openTab (event, tabName) {
