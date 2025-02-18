@@ -69,6 +69,7 @@ public class UserController {
         if (user == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User Not Found!");
 
         HashMap<String, String> response = new HashMap<>();
+        response.put("userId", Integer.toString(user.getId()));
         response.put("email", user.getEmail());
         response.put("name", user.getName());
         response.put("hasCard", String.valueOf(user.isHasCard()));

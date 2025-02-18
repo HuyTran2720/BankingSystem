@@ -82,10 +82,13 @@
                 </form>
 
                 <form id="changeDetails" style="width: 100%; display: none;">
-                    <h3> Enter any details you would like to change. (ALL ARE OPTIONAL) </h3>
+                    <h3> Enter any details you would like to change. </h3>
                     <input type="text" id="newName" placeholder="New Account Name">
-                    <input type="text" id="newEmail" placeholder="New Account Email">
                     <input type="number" id="newPin" placeholder="New 4 Digit Pin">
+                    <label>
+                        <input type="checkbox" id="isSavingAccount">
+                        Savings Account </span>
+                    </label>
                     <button onclick="window.location.reload()" class="cancelBtn">Cancel</button>
                     <input type="submit" placeholder="Confirm">
                 </form>

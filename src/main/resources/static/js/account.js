@@ -506,22 +506,24 @@ document.getElementById("changeDetails").addEventListener("submit", function(eve
     const accountData = JSON.parse(decodeURIComponent(selectedAccount.value));
 
     let newAccName = accountData.accountName;
-    let newAccEmail = accountData.email;
     let newAccPin = accountData.account_pin;
+    let isSavings = document.getElementById("isSavingAccount").checked;
+    let newAccType = "Credit Account";
+    if (isSavings) {
+        newAccType = "Savings Account";
+    }
+
     if (document.getElementById("newName").value != "") {
         newAccName = document.getElementById("newName").value;
     }
-    if (document.getElementById("newEmail").value != "") {
-        newAccEmail = document.getElementById("newEmail").value;
-    }
     if (document.getElementById("newPin").value != "") {
-        newAccPin = document.getElementById("newPin").value;
+        newAccPin = parseInt(document.getElementById("newPin").value);
     }
 
     const updatedDetails = {
         accountName: newAccName,
-        email: newAccEmail,
-        account_pin: newAccPin
+        account_pin: newAccPin,
+        accountType: newAccType
     }
 
     console.log("Updating with details: ", updatedDetails);
@@ -553,6 +555,5 @@ document.getElementById("changeDetails").addEventListener("submit", function(eve
     .catch(error => {
         console.log('Error caught:', error.message);
         console.error('Error:', error);
-        window.location.reload();
     });
 });
