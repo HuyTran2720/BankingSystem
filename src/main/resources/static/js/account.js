@@ -68,6 +68,31 @@ async function getUserInfo () {
     showMesage();
 }
 
+// CHECK IF USER HAS MAX AMOUNT OF CARDS (5)
+async function maxLimitCards () {
+    fetch ('http://localhost:8081/Cards/Accounts', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => {
+        console.log('Response received:', response.status); 
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        return data.length === 5;
+    })
+    .catch(error => {
+        console.log('Error caught:', error.message);
+        console.error('Error:', error);
+        return false;
+    });
+}
+
+// CHECKING FOR CARDS
 function checkForCards () {
     fetch ('http://localhost:8081/Cards/Accounts', {
         method: 'GET',
@@ -100,6 +125,7 @@ function checkForCards () {
     });
 }
 
+// SHOW MESSAGE
 function showMesage () {
     const messageDiv = document.getElementById("message");
 
@@ -110,6 +136,7 @@ function showMesage () {
     }, 0); //TODO: CHANGE BACK TO 4000
 }
 
+// OPEN INVISIBLE TAB
 function openTab (event, tabName) {
     var i, tabContent, tab;
     tabContent = document.getElementsByClassName("tabcontent");
@@ -128,6 +155,12 @@ function openTab (event, tabName) {
 document.getElementById('cardCreation').addEventListener('submit', function (e) {
     e.preventDefault();
 
+    const isMax = maxLimitCards();
+    if (isMax) {
+        console.log("Max Card Limit reached!");
+        window.location.reload();
+        return;
+    } else {
     const amount = parseFloat(document.getElementById('amount').value);
     const pin = parseInt(document.getElementById('pin').value, 10);
     const savings = document.getElementById('accountType').checked;
@@ -191,9 +224,11 @@ document.getElementById('cardCreation').addEventListener('submit', function (e) 
         console.log('Error caught:', error.message);
         console.error('Error:', error);
     });
+    }
 
 });
 
+// UPDATE HAS CARD
 function updateHasCard (isTrue) {
     console.log("updating with email: ", userData.email);
     console.log("hasCard: ", String(isTrue));
@@ -225,6 +260,7 @@ function updateHasCard (isTrue) {
     });
 }
 
+// ADD CARDS TO SCREEN
 function addCards () {
     fetch ('http://localhost:8081/Cards/Accounts', {
 
@@ -267,7 +303,7 @@ function addCards () {
                     border-radius: 5px; 
                     margin-right: auto; 
                     border: 1px solid black;
-                    width: 80%;
+                    width: 30%;
                     padding: 5px;
                     "
                     >
