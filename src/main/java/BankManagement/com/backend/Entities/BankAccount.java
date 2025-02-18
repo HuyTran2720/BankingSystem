@@ -9,7 +9,6 @@ import java.util.Random;
 public class BankAccount {
 
     @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @PrePersist

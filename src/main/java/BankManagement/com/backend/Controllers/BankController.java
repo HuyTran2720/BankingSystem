@@ -55,19 +55,26 @@ public class BankController {
             accountToUpdate.setAccountName(account.getAccountName());
         }
 
+        if (account.getEmail() != null) {
+            accountToUpdate.setEmail(account.getEmail());
+        }
+
+        Integer nullInt = null;
+        if (account.getAccount_pin() != nullInt) {
+            accountToUpdate.setAccount_pin(account.getAccount_pin());
+        }
+
         /*
         Float nullfloat = null;
         if (account.getAccountBalance() != nullfloat) {
             accountToUpdate.setAccountBalance(account.getAccountBalance());
         }
-        */
         
         if (account.getAccountType() != null) {
             accountToUpdate.setAccountType(account.getAccountType());
         }
-        if (account.getEmail() != null) {
-            accountToUpdate.setEmail(account.getEmail());
-        }
+        */
+
         BankAccount updatedAccount = this.bankAccountRepository.save(accountToUpdate);
 
         return updatedAccount;

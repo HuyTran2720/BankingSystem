@@ -107,7 +107,7 @@ function showMesage () {
 
     setTimeout(function() {
         messageDiv.classList.remove("show");
-    }, 4000); //TODO: CHANGE BACK TO 4000
+    }, 0); //TODO: CHANGE BACK TO 4000
 }
 
 function openTab (event, tabName) {
@@ -294,6 +294,7 @@ function addCards () {
     });
 }
 
+// REMOVING CARDS
 document.getElementById("removeCard").addEventListener("click", function() {
     const cards = document.getElementById("cardDeletion");
     cards.innerHTML = "";
@@ -406,4 +407,152 @@ document.getElementById("deletingForm").addEventListener("submit", function(even
         console.error('Error:', error);
     });
     } else console.log("Couldnt find user");
+});
+
+// UPDATING CARDS
+document.getElementById("editCard").addEventListener("click", function() {
+    const cards = document.getElementById("cardUpdating");
+    cards.innerHTML = "";
+
+    fetch ('http://localhost:8081/Cards/Accounts', {
+
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        console.log('Response received:', response.status); 
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Cards Adding');
+        console.log('Card Data: ', data);
+
+        let userEmail = userData.email;
+        
+        for (let currCard of data) {
+            let card = currCard.email;
+            console.log("comparing: ", userEmail, " and ", card);
+            if (card === userEmail) {
+                let cardString = currCard.id.toString();
+                let midPoint = Math.floor(cardString.length / 2);
+                let cardNumber = cardString.slice(0, midPoint) + '-' + cardString.slice(midPoint);
+
+                cards.innerHTML += 
+                `
+                <div 
+                style="background-color: rgb(205, 206, 207); 
+                display: inline;
+                border-radius: 5px; 
+                margin-right: auto; 
+                border: 1px solid black;
+                width: 100% !important;
+                padding: 5px;
+                "
+                >
+                    <input type="radio" name="currentCard" value="${encodeURIComponent(JSON.stringify(currCard))}">
+                    <p> 
+                     ${currCard.accountType} 
+                     ${cardNumber} 
+                     ${currCard.accountName} 
+                     </p>
+                        <p> Balance: $${currCard.accountBalance.toFixed(2)} </p>
+
+                </div>
+
+                `;
+            }
+        }
+
+    })
+    .catch(error => {
+        console.log("Cards Couldnt be Added");
+        console.log('Error caught:', error.message);
+        console.error('Error:', error);
+    });
+});
+
+document.getElementById("updatingForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    console.log("Updating Chosen Card");
+    let selectedAccount = document.querySelector('input[name="currentCard"]:checked');
+    console.log(selectedAccount);
+
+    if (selectedAccount) {
+        let accountData = JSON.parse(decodeURIComponent(selectedAccount.value));
+        let userPin = accountData.account_pin;
+        let enteredPin = document.getElementById("updatingPIN").value;
+        console.log("Comparing ", userPin, " with entered: ", enteredPin);
+        if (enteredPin != userPin) {
+            console.log("INCORRECT PIN ENTERED");
+            return;
+        }
+
+        document.getElementById("changeDetails").style.display = "flex";
+        document.getElementById("updatingForm").style.display= "none";
+
+    } else console.log("Couldnt find user");
+});
+
+document.getElementById("changeDetails").addEventListener("submit", function(event){
+    event.preventDefault();
+
+    let selectedAccount = document.querySelector('input[name="currentCard"]:checked');
+    const accountData = JSON.parse(decodeURIComponent(selectedAccount.value));
+
+    let newAccName = accountData.accountName;
+    let newAccEmail = accountData.email;
+    let newAccPin = accountData.account_pin;
+    if (document.getElementById("newName").value != "") {
+        newAccName = document.getElementById("newName").value;
+    }
+    if (document.getElementById("newEmail").value != "") {
+        newAccEmail = document.getElementById("newEmail").value;
+    }
+    if (document.getElementById("newPin").value != "") {
+        newAccPin = document.getElementById("newPin").value;
+    }
+
+    const updatedDetails = {
+        accountName: newAccName,
+        email: newAccEmail,
+        account_pin: newAccPin
+    }
+
+    console.log("Updating with details: ", updatedDetails);
+    console.log("Updating on account: ", accountData.id);
+
+    fetch (`http://localhost:8081/Cards/Accounts/${accountData.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedDetails)
+    })
+    .then(response => {
+        console.log('Response received:', response.status); 
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        return response.json();
+    })
+    .then(data => {
+        console.log('Card Updated');
+        let timer = Math.floor(Math.random() * 2000 + 2000);
+        setTimeout (function() {
+            window.location.reload();
+        }, timer)
+    })
+    .catch(error => {
+        console.log('Error caught:', error.message);
+        console.error('Error:', error);
+        window.location.reload();
+    });
 });
