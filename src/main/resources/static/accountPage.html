@@ -18,6 +18,11 @@
         <!-- content portion -->
         <div class = "mainPage">
             <div class="mainContent">
+
+                <div id="signupLoader" style="width: 100%; height: 100%; display: none; background-color: gray; z-index: 9999 !important;">
+                    <div class="loader"></div>
+                </div>
+
                 <div id="message">
                     <h2 style="color: dodgerblue; font-size: xx-large; -webkit-text-stroke: 1px;  -webkit-text-stroke-color: dodgerblue; margin-bottom: 5px;"> 
                         Welcome to Cloud Banking
@@ -142,8 +147,9 @@
 
                 <!-- TRANSFERRING BETWEEN ACCOUNTS -->
                 <div id="transfer" class="tabcontent" style="width: 100%;">
-                    <form id="transferForm" style="width: 100%;">
 
+                    <form id="transferForm" style="width: 100%;">
+                        <h4> Transfer Details </h4>
                         <div style="display: flex; flex-direction: row; gap: 20px; width: fit-content;">
                             <div style="width: 45%;">
                                 <h4> From </h4>
@@ -157,11 +163,11 @@
                         </div>
 
                         <div>
-                            <input id="transferAmount" type="number" placeholder="Amount" required>
+                            <input id="transferAmount" min="1" type="number" placeholder="Amount" required>
                             <input type="submit">
                         </div>
-
                     </form>
+
                 </div>
 
                 <!-- PAY SOMEONE -->
