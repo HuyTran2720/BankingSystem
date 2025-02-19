@@ -45,7 +45,7 @@
                 <!-- TAB: PAYING -->
                 <div id="accounts" class="tabcontent">
                     <h3> Accounts </h3>
-                    <button class="tab" onclick="openTab(event, 'createCard')"> Create Card </button>
+                    <button id="addCard" class="tab" onclick="openTab(event, 'createCard')"> Create Card </button>
                     <button id="editCard" class="tab" onclick="openTab(event, 'updateCard')"> Update Card </button>
                     <button id="removeCard" class="tab" onclick="openTab(event, 'deleteCard')"> Delete Card </button>
     
@@ -54,6 +54,10 @@
                     <!-- creating cards -->
                 <div id="createCard" class="tabcontent">
                     <form id="cardCreation">
+                        <span id="maxErrorMessage"> 
+                            <h3 style="color: red;"> Max Card Limit Reached! </h3>
+                            <p> Please remove a card if you </br> wish to create a new card. </p>
+                        </span>
     
                         <h3> Create Card</h3>
                         <input type="number" step="0.01" id="amount" placeholder="$" required>

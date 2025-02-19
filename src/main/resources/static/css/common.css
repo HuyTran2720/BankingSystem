@@ -240,6 +240,29 @@ input[type=text], input[type=email], input[type=password] {
     transition: opacity 1s ease-in-out, visibility 0s;
 }
 
+#maxErrorMessage {
+    position: absolute;
+    left: 50%; 
+    transform: translateX(-50%);
+    visibility: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    height: fit-content;
+    background-color: rgb(228, 228, 228);
+    padding: 15px;
+    border-radius: 10px;
+    z-index: -1;
+}
+
+#maxErrorMessage.show {
+    visibility: visible;
+    opacity: 1;
+    z-index: 9999;
+}
+
 .tabcontent {
     display: none;
 }

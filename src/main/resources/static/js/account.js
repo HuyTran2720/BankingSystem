@@ -151,6 +151,18 @@ function openTab (event, tabName) {
     event.currentTarget.className += " active";
 }
 
+document.getElementById("addCard").addEventListener('click', function() {
+    const isMax = maxLimitCards();
+    if (isMax) {
+        let message = document.getElementById("maxErrorMessage");
+        message.classList.add("show");
+
+        setTimeout(function() {
+            message.classList.remove("show");
+        }, 10000);
+    }
+});
+
 // CREATING CARD
 document.getElementById('cardCreation').addEventListener('submit', function (e) {
     e.preventDefault();
