@@ -2,7 +2,7 @@ console.log("account.js script loaded");
 let userData = null;
 
 async function getUserInfo () {
-    document.getElementsByClassName("tab")[0].click();
+    document.getElementsByClassName("tab")[1].click();
 
     console.log("Fetching Token");
 
@@ -505,21 +505,20 @@ document.getElementById("editCard").addEventListener("click", function() {
                 `
                 <div 
                 style="background-color: rgb(205, 206, 207); 
-                display: inline;
+                display: flex;
                 border-radius: 5px; 
-                margin-right: auto; 
                 border: 1px solid black;
                 width: 100% !important;
-                padding: 5px;
+                padding: 2px;
                 "
                 >
                     <input type="radio" name="currentCard" value="${encodeURIComponent(JSON.stringify(currCard))}">
-                    <p> 
-                     ${currCard.accountType} 
+                    <p style="margin-right: 20px;"> 
+                     ${currCard.accountType} </br>
                      ${cardNumber} 
-                     ${currCard.accountName} 
+                     (${currCard.accountName}) 
                      </p>
-                        <p> Balance: $${currCard.accountBalance.toFixed(2)} </p>
+                    <p style="margin-top: 7%;"> Balance: $${currCard.accountBalance.toFixed(2)} </p>
 
                 </div>
 
