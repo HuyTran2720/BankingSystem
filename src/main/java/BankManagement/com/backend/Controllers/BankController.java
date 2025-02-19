@@ -11,6 +11,8 @@ import jakarta.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Optional;
 
+// ! VERY IMPORTANT - IF U DO ANY CHANGES IN JAVA U HAVE TO RESTART THE SERVER FOR IT TO BE IN EFFECT
+
 @RestController
 @RequestMapping("/Cards")
 public class BankController {
@@ -86,11 +88,13 @@ public class BankController {
         BankAccount accountToPay = bankAccountOptional.get();
         float newBalance = accountToPay.getAccountBalance() + money;
 
+        System.out.println("Saving to account: " + accountToPay.getId());
         System.out.println("New Balance: " + newBalance);
 
         accountToPay.setAccountBalance(newBalance);
+        BankAccount paidAccount = this.bankAccountRepository.save(accountToPay);
 
-        return accountToPay;
+        return paidAccount;
     }
 
     // ! DELETE
