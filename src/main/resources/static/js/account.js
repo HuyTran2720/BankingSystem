@@ -70,26 +70,30 @@ async function getUserInfo () {
 
 // CHECK IF USER HAS MAX AMOUNT OF CARDS (5)
 async function maxLimitCards () {
-    fetch ('http://localhost:8081/Cards/Accounts', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    })
-    .then(response => {
+    try {
+        const response = await fetch ('http://localhost:8081/Cards/Accounts', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
         console.log('Response received:', response.status); 
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
 
+        const data = await response.json();
+        console.log("Card Info - ", data);
+        console.log("Cards: ", data.length);
+
         return data.length === 5;
-    })
-    .catch(error => {
+    } catch (error) {
         console.log('Error caught:', error.message);
         console.error('Error:', error);
         return false;
-    });
+    }
 }
 
 // CHECKING FOR CARDS
@@ -151,9 +155,11 @@ function openTab (event, tabName) {
     event.currentTarget.className += " active";
 }
 
-document.getElementById("addCard").addEventListener('click', function() {
-    const isMax = maxLimitCards();
+// WHEN USER CLICKS ON CREATE CARD
+document.getElementById("addCard").addEventListener('click', async function(e) {
+    const isMax = await maxLimitCards();
     if (isMax) {
+        console.log("MAX REACHED");
         let message = document.getElementById("maxErrorMessage");
         message.classList.add("show");
 
@@ -164,14 +170,18 @@ document.getElementById("addCard").addEventListener('click', function() {
 });
 
 // CREATING CARD
-document.getElementById('cardCreation').addEventListener('submit', function (e) {
+document.getElementById('cardCreation').addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    const isMax = maxLimitCards();
+    const isMax = await maxLimitCards();
     if (isMax) {
         console.log("Max Card Limit reached!");
-        window.location.reload();
-        return;
+        let message = document.getElementById("maxErrorMessage");
+        message.classList.add("show");
+
+        setTimeout(function() {
+            message.classList.remove("show");
+        }, 5000);
     } else {
     const amount = parseFloat(document.getElementById('amount').value);
     const pin = parseInt(document.getElementById('pin').value, 10);
