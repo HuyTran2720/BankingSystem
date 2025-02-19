@@ -390,12 +390,11 @@ document.getElementById("removeCard").addEventListener("click", function() {
                 `
                 <div 
                 style="background-color: rgb(205, 206, 207); 
-                display: inline;
+                display: flex;
                 border-radius: 5px; 
-                margin-right: auto; 
                 border: 1px solid black;
                 width: 100% !important;
-                padding: 5px;
+                padding: 2px;
                 "
                 >
                     <input type="radio" name="currentCard" value="${currCard.id}|${currCard.account_pin}">

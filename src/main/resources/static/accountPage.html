@@ -113,13 +113,23 @@
                 <div id="deleteCard" class="tabcontent" style="
                 width: 100%;
                 ">
-                    <form id="deletingForm" style="width: 100%;">
+                    <form id="deletingForm" style="
+                    width: 50%; 
+                    display: flex; 
+                    flex-direction: column; 
+                    position: fixed;
+                    top: 62%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    ">
                         <h3> Select Card to Delete </h3>
-                        <div id="cardDeletion"></div>
+                        <div id="cardDeletion" style="width: fit-content;"></div>
                         <input type="number" id="deletePIN" placeholder="Enter PIN for Selected Card" required>
-                        <button onclick="window.location.reload()" class="cancelBtn">Cancel</button>
-                        <input type="reset">
-                        <input type="submit">
+                        <div style="width: 100%;">
+                            <button onclick="window.location.reload()" class="cancelBtn">Cancel</button>
+                            <input type="reset">
+                            <input type="submit">
+                        </div>
                     </form>
                 </div>
     
