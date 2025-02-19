@@ -645,7 +645,6 @@ document.getElementById("transferTab").addEventListener("click", function() {
         
         for (let currCard of data) {
             let card = currCard.email;
-            console.log("Curr Card: ", currCard);
             console.log("comparing: ", userEmail, " and ", card);
             if (card === userEmail) {
                 let cardString = currCard.id.toString();
@@ -704,4 +703,83 @@ document.getElementById("transferTab").addEventListener("click", function() {
         console.log('Error caught:', error.message);
         console.error('Error:', error);
     });
+});
+
+document.getElementById("transferForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+    let senderAccount = document.querySelector('input[name="senderCard"]:checked');
+    let receiverAccount = document.querySelector('input[name="receiverCard"]:checked');
+    const senderData = JSON.parse(decodeURIComponent(senderAccount.value));
+    const receiverData = JSON.parse(decodeURIComponent(receiverAccount.value));
+
+    const transferAmount = -document.getElementById("transferAmount").value;
+    const receiverAmount = -transferAmount;
+    console.log("Sending: ", transferAmount);
+    console.log("Receiving: ", receiverAmount);
+
+    if (!senderAccount || !receiverAccount) {
+        console.error("Missing sender account or receiver account");
+        alert("Missing sender account or receiver account");
+        event.preventDefault();
+    } else if (senderData.id == receiverData.id) {
+        console.error("Sender and Receiver accounts cannot be the same");
+        alert("Sender and Receiver accounts cannot be the same");
+        event.preventDefault();
+    } 
+
+    else {
+        try {
+
+            const headers = {
+                "Content-Type": "application/json"
+            };
+
+            const [senderResponse, receiverResponse] = await Promise.all ([
+                fetch(`http://localhost:8081/Cards/Accounts/${senderData.id}`, {
+                    method: 'GET',
+                    headers
+                }),
+                fetch(`http://localhost:8081/Cards/Accounts/${receiverData.id}`, {
+                    method: 'GET',
+                    headers
+                })
+            ]);
+
+            if (!senderResponse.ok || !receiverResponse.ok) {
+                throw new Error("Failed to fetch sender or receiver account");
+            }
+
+            console.log("Fetch Successful!");
+
+            console.log("Sender ID: ", senderData.id);
+            console.log("Receiver ID: ", receiverData.id);
+
+            const [sendingResponse, receivingResponse] = await Promise.all ([
+                fetch(`http://localhost:8081/Cards/Accounts/Pay/${senderData.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Amount': `${transferAmount}`
+                    }
+                }),
+                fetch(`http://localhost:8081/Cards/Accounts/Pay/${receiverData.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Amount': `${receiverAmount}`
+                    }
+                })
+            ]);
+
+            if (!sendingResponse.ok || !receivingResponse.ok) {
+                throw new Error("Failed to transfer money");
+            }
+
+            console.log("Transfer Success!");
+
+        } catch (error) {
+
+        }
+    }
+    
 });

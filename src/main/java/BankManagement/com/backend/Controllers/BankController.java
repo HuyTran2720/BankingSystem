@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import BankManagement.com.backend.Repositories.BankAccountRepository;
+import jakarta.annotation.PostConstruct;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -62,11 +63,6 @@ public class BankController {
         }
 
         /*
-        Float nullfloat = null;
-        if (account.getAccountBalance() != nullfloat) {
-            accountToUpdate.setAccountBalance(account.getAccountBalance());
-        }
-
         if (account.getEmail() != null) {
             accountToUpdate.setEmail(account.getEmail());
         }
@@ -75,6 +71,26 @@ public class BankController {
         BankAccount updatedAccount = this.bankAccountRepository.save(accountToUpdate);
 
         return updatedAccount;
+    }
+
+    // * for changing bank card amounts
+    @CrossOrigin(origins = "*")
+    @PutMapping("/Accounts/Pay/{id}")
+    public BankAccount transferMoney (@PathVariable("id") Integer id, @RequestHeader("Amount") String amount) {
+        System.out.println("Finding Account");
+        Optional<BankAccount> bankAccountOptional = this.bankAccountRepository.findById(id);
+        if (bankAccountOptional.isEmpty()) return null;
+        System.out.println("Valid Account has been Found");
+
+        float money = Float.parseFloat(amount);
+        BankAccount accountToPay = bankAccountOptional.get();
+        float newBalance = accountToPay.getAccountBalance() + money;
+
+        System.out.println("New Balance: " + newBalance);
+
+        accountToPay.setAccountBalance(newBalance);
+
+        return accountToPay;
     }
 
     // ! DELETE
@@ -87,5 +103,11 @@ public class BankController {
         this.bankAccountRepository.delete(accountToDelete);
 
         return accountToDelete;
+    }
+
+    // ! LOGGING
+    @PostConstruct
+    public void showEndpoints() {
+        System.out.println("Registered endpoint: /Cards/Accounts/Pay/{id}");
     }
 }
