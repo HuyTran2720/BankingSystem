@@ -2,6 +2,7 @@ package BankManagement.com.backend.Controllers;
 
 import BankManagement.com.backend.Entities.BankAccount;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,10 +29,21 @@ public class BankController {
     public Iterable <BankAccount> getAllAccounts () {
         return this.bankAccountRepository.findAll();
     }
-
+    
     @GetMapping("/Accounts/{id}")
     public Optional <BankAccount> getAccountById (@PathVariable("id") Integer id) {
         return this.bankAccountRepository.findById(id);
+    }
+
+    @GetMapping("/Accounts/CheckExists/{id}")
+    public ResponseEntity <BankAccount> checkAccountById (@PathVariable("id") Integer id) {
+        Optional<BankAccount> accountOptional = this.bankAccountRepository.findById(id);
+
+        if (!accountOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.ok(accountOptional.get());
     }
 
     // ! Create

@@ -2,7 +2,7 @@ console.log("account.js script loaded");
 let userData = null;
 
 async function getUserInfo () {
-    document.getElementsByClassName("tab")[2].click();
+    document.getElementsByClassName("tab")[7].click();
     // TODO: CHANGE BACK TO 0
 
     console.log("Fetching Token");
@@ -786,5 +786,133 @@ document.getElementById("transferForm").addEventListener("submit", async functio
             console.log('Error caught:', error.message);
             console.error('Error:', error);
         }
+    }
+});
+
+// PAY SOMEONE
+document.getElementById("payTab").addEventListener("click", function() {
+    const sendingAccount = document.getElementById("payerAccount");
+    sendingAccount.innerHTML = "";
+
+    fetch ('http://localhost:8081/Cards/Accounts', {
+
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        console.log('Response received:', response.status); 
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Cards Adding');
+        console.log('Card Data: ', data);
+
+        let userEmail = userData.email;
+        
+        for (let currCard of data) {
+            let card = currCard.email;
+            console.log("comparing: ", userEmail, " and ", card);
+            if (card === userEmail) {
+                let cardString = currCard.id.toString();
+                let midPoint = Math.floor(cardString.length / 2);
+                let cardNumber = cardString.slice(0, midPoint) + '-' + cardString.slice(midPoint);
+
+                sendingAccount.innerHTML += 
+                `
+                <div 
+                style="background-color: rgb(205, 206, 207); 
+                display: flex;
+                border-radius: 5px; 
+                border: 1px solid black;
+                width: 100% !important;
+                padding: 2px;
+                "
+                >
+                    <input type="radio" name="payerCard" value="${encodeURIComponent(JSON.stringify(currCard))}">
+                    <p style="margin-right: 20px;"> 
+                     ${currCard.accountType} </br>
+                     ${cardNumber} 
+                     </p>
+                    <p style="margin-top: 7%;"> Balance: $${currCard.accountBalance.toFixed(2)} </p>
+
+                </div>
+
+                `;
+            }
+        }
+
+    })
+    .catch(error => {
+        console.log("Cards Couldnt be Added");
+        console.log('Error caught:', error.message);
+        console.error('Error:', error);
+    });
+});
+
+document.getElementById("payingForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+    let payerAccount = document.querySelector('input[name="payerCard"]:checked');
+    const payerData = JSON.parse(decodeURIComponent(payerAccount.value));
+
+    let payeeString = document.getElementById("payeeAccount").value;
+    let sendAmnt = -document.getElementById("payAmount").value;
+    const payeeId = payeeString.slice(0, 4) + payeeString.slice(5);
+    
+    if (payeeId === toString(payerData.id)) {
+        alert("Cannot send money to the same account!");
+    } else if (!payerAccount) {
+        alert("Please select an account to pay from");
+    } else if (payeeString.charAt(4) != '-' || payeeString.length != 9) {
+        alert("Please follow the format");
+    } else {
+        const receivingAmnt = -sendAmnt;
+
+        console.log("Payer ID: ", payerData.id);
+        console.log("Receiver ID: ", payeeId);
+        console.log("Sending Amount: ", sendAmnt);
+        console.log("Receiving: ", receivingAmnt);
+
+        const receiverStatus = await fetch(`http://localhost:8081/Cards/Accounts/CheckExists/${payeeId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type':'application/json'
+            }
+        });
+        if (!receiverStatus.ok) {
+            alert("Couldn't find account with this id, please check if you entered it correctly");
+            console.log("Couldn't find account with this id, please check if you entered it correctly");
+            throw new Error("Couldnt Find Account");
+        }
+        console.log("Valid Account Found");
+
+        const [sendingResponse, receivingResponse] = await Promise.all ([
+            fetch(`http://localhost:8081/Cards/Accounts/Pay/${payerData.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Amount': `${sendAmnt}`
+                }
+            }),
+            fetch(`http://localhost:8081/Cards/Accounts/Pay/${payeeId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Amount': `${receivingAmnt}`
+                }
+            })
+        ]);
+
+        if (!sendingResponse.ok || !receivingResponse.ok) {
+            throw new Error("Failed to transfer money");
+        }
+
+        console.log("Payment Success!");
+
     }
 });

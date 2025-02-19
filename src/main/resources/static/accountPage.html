@@ -9,18 +9,9 @@
 
         <div id="signupLoader" 
                     style="
-                    position: fixed;
-                    display: none;
-                    align-items: center;
-                    justify-content: center;
-                    opacity: 0.4;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    width: 100%; 
-                    height: 100%; 
-                    background-color: gray; 
-                    z-index: 9999 !important;"
+                    position: fixed; display: none; align-items: center; justify-content: center;
+                    opacity: 0.4; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; 
+                    height: 100%; background-color: gray; z-index: 9999 !important;"
                     >
                     <div class="loader" style="opacity: 1;"></div>
                 </div>
@@ -50,7 +41,7 @@
                     <button class="tab" onclick="openTab(event, 'pay')"> Pay </button>
                 </div>
     
-                <!-- TAB: PAYING -->
+                <!-- TAB: HOME -->
                 <div id="home" class="tabcontent" 
                 style="
                 width: 100%;
@@ -61,7 +52,7 @@
 
                 </div>
     
-                <!-- TAB: PAYING -->
+                <!-- TAB: ACCOUNTS -->
                 <div id="accounts" class="tabcontent">
                     <h3> Accounts </h3>
                     <button id="addCard" class="tab" onclick="openTab(event, 'createCard')"> Create Card </button>
@@ -155,7 +146,7 @@
                 <div id="pay" class="tabcontent">
                     <h3> Accounts </h3>
                     <button id="transferTab" class="tab" onclick="openTab(event, 'transfer')"> Transfer </button>
-                    <button id="payTab" class="tab" onclick="openTab(event, 'paySomone')"> Pay Someone </button>
+                    <button id="payTab" class="tab" onclick="openTab(event, 'paySomeone')"> Pay Someone </button>
                     <button id="depositTab" class="tab" onclick="openTab(event, 'depositMoney')"> Deposit </button>
                 </div>
 
@@ -177,7 +168,7 @@
                         </div>
 
                         <div>
-                            <input id="transferAmount" min="1" type="number" placeholder="Amount" required>
+                            <input id="transferAmount" min="1" step="0.01" type="number" placeholder="Amount" required>
                             <input type="submit">
                         </div>
                     </form>
@@ -185,7 +176,23 @@
                 </div>
 
                 <!-- PAY SOMEONE -->
-                <div id="paySomeone" class="tabcontent">
+                <div id="paySomeone" class="tabcontent" style="width: 100%; height: fit-content;">
+
+                    <form id="payingForm">
+                        <h3> Pay Someone </h3>
+                        <div style="display: flex; flex-direction: row; gap: 20px; width: fit-content;">
+                            <div id="payerAccount" style="width: 100%;"></div>
+                        </div>
+
+                        <div>
+                            <p></p>
+                            <label> Account Number </label>
+                            <input id="payeeAccount" type="text" placeholder="1234-5678" required>
+                            <input id="payAmount" type="number" step="0.01" min="1" placeholder="Amount" required>
+                            <input type="submit">
+                        </div>
+                    </form>
+
                 </div>
 
                 <!-- DEPOSIT MONEY -->
