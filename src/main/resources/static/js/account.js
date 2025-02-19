@@ -863,8 +863,10 @@ document.getElementById("payingForm").addEventListener("submit", async function 
     let payeeString = document.getElementById("payeeAccount").value;
     let sendAmnt = -document.getElementById("payAmount").value;
     const payeeId = payeeString.slice(0, 4) + payeeString.slice(5);
-    
-    if (payeeId === toString(payerData.id)) {
+
+    if (payerData.accountBalance + sendAmnt < 0) {
+        alert("Insufficient Funds");
+    } else if (payeeId === payerData.id.toString()) {
         alert("Cannot send money to the same account!");
     } else if (!payerAccount) {
         alert("Please select an account to pay from");
