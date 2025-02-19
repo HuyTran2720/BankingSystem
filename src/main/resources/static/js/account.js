@@ -141,6 +141,14 @@ function showMesage () {
     }, 0); //TODO: CHANGE BACK TO 4000
 }
 
+function loadingReset() {
+    let timer = Math.floor(Math.random() * 2000 + 2000);
+    document.getElementById("signupLoader").style.display = 'flex';
+    setTimeout (function() {
+        window.location.reload();
+    }, timer)
+}
+
 // OPEN INVISIBLE TAB
 function openTab (event, tabName) {
     var i, tabContent, tab;
@@ -238,11 +246,7 @@ document.getElementById('cardCreation').addEventListener('submit', async functio
         console.log('Redirecting');
 
         // refreshes page in order to show cards
-        let timer = Math.floor(Math.random() * 2000 + 2000);
-        document.getElementById("signupLoader").style.display = 'flex';
-        setTimeout (function() {
-            window.location.reload();
-        }, timer)
+        loadingReset()
     })
     .catch(error => {
         console.log('Error caught:', error.message);
@@ -455,11 +459,7 @@ document.getElementById("deletingForm").addEventListener("submit", function(even
     .then(data => {
         console.log("Card Deleted");
         checkForCards();
-        let timer = Math.floor(Math.random() * 2000 + 2000);
-        document.getElementById("signupLoader").style.display = 'flex';
-        setTimeout (function() {
-            window.location.reload();
-        }, timer)
+        loadingReset()
     })
     .catch(error => {
         console.log("Cards Couldnt be Deleted");
@@ -606,11 +606,7 @@ document.getElementById("changeDetails").addEventListener("submit", function(eve
     })
     .then(data => {
         console.log('Card Updated');
-        let timer = Math.floor(Math.random() * 2000 + 2000);
-        document.getElementById("signupLoader").style.display = 'flex';
-        setTimeout (function() {
-            window.location.reload();
-        }, timer)
+        loadingReset()
     })
     .catch(error => {
         console.log('Error caught:', error.message);
@@ -783,11 +779,7 @@ document.getElementById("transferForm").addEventListener("submit", async functio
 
             console.log("Transfer Success!");
 
-            let timer = Math.floor(Math.random() * 2000 + 2000);
-            document.getElementById("signupLoader").style.display = 'flex';
-            setTimeout (function() {
-                window.location.reload();
-            }, timer)
+            loadingReset()
 
         } catch (error) {
             alert("Error transferring, please make sure details are correct or try again later");
