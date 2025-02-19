@@ -48,7 +48,6 @@
                     <button id="addCard" class="tab" onclick="openTab(event, 'createCard')"> Create Card </button>
                     <button id="editCard" class="tab" onclick="openTab(event, 'updateCard')"> Update Card </button>
                     <button id="removeCard" class="tab" onclick="openTab(event, 'deleteCard')"> Delete Card </button>
-    
                 </div>
     
                     <!-- creating cards -->
@@ -135,8 +134,44 @@
     
                 <!-- TAB: PAYING -->
                 <div id="pay" class="tabcontent">
-                    <h3> Pay </h3>
+                    <h3> Accounts </h3>
+                    <button id="transferTab" class="tab" onclick="openTab(event, 'transfer')"> Transfer </button>
+                    <button id="payTab" class="tab" onclick="openTab(event, 'paySomone')"> Pay Someone </button>
+                    <button id="depositTab" class="tab" onclick="openTab(event, 'depositMoney')"> Deposit </button>
                 </div>
+
+                <!-- TRANSFERRING BETWEEN ACCOUNTS -->
+                <div id="transfer" class="tabcontent" style="width: 100%;">
+                    <form style="width: 100%;">
+
+                        <div style="display: flex; flex-direction: row; gap: 20px; width: fit-content;">
+                            <div style="width: 45%;">
+                                <h4> From </h4>
+                                <div id="sendingAccount"></div>
+                            </div>
+    
+                            <div style="width: 45%;">
+                                <h4> To </h4>
+                                <div id="receivingAccount"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <input type="number" placeholder="Amount" required>
+                            <input type="submit">
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- PAY SOMEONE -->
+                <div id="paySomeone" class="tabcontent">
+                </div>
+
+                <!-- DEPOSIT MONEY -->
+                <div id="depositMoney" class="tabcontent">
+                </div>
+                
             </div>
             
         </div>

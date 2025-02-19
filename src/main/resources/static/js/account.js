@@ -2,7 +2,8 @@ console.log("account.js script loaded");
 let userData = null;
 
 async function getUserInfo () {
-    document.getElementsByClassName("tab")[1].click();
+    document.getElementsByClassName("tab")[2].click();
+    // TODO: CHANGE BACK TO 0
 
     console.log("Fetching Token");
 
@@ -609,6 +610,97 @@ document.getElementById("changeDetails").addEventListener("submit", function(eve
         }, timer)
     })
     .catch(error => {
+        console.log('Error caught:', error.message);
+        console.error('Error:', error);
+    });
+});
+
+// TRANSFERRING BETWEEN ACCOUNTS
+document.getElementById("transferTab").addEventListener("click", function() {
+    const sendingAccount = document.getElementById("sendingAccount");
+    sendingAccount.innerHTML = "";
+    const receivingAccount = document.getElementById("receivingAccount");
+    receivingAccount.innerHTML = "";
+
+    fetch ('http://localhost:8081/Cards/Accounts', {
+
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        console.log('Response received:', response.status); 
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Cards Adding');
+        console.log('Card Data: ', data);
+
+        let userEmail = userData.email;
+        
+        for (let currCard of data) {
+            let card = currCard.email;
+            console.log("Curr Card: ", currCard);
+            console.log("comparing: ", userEmail, " and ", card);
+            if (card === userEmail) {
+                let cardString = currCard.id.toString();
+                let midPoint = Math.floor(cardString.length / 2);
+                let cardNumber = cardString.slice(0, midPoint) + '-' + cardString.slice(midPoint);
+
+                sendingAccount.innerHTML += 
+                `
+                <div 
+                style="background-color: rgb(205, 206, 207); 
+                display: flex;
+                border-radius: 5px; 
+                border: 1px solid black;
+                width: 100% !important;
+                padding: 2px;
+                "
+                >
+                    <input type="radio" name="senderCard" value="${encodeURIComponent(JSON.stringify(currCard))}">
+                    <p style="margin-right: 20px;"> 
+                     ${currCard.accountType} </br>
+                     ${cardNumber} 
+                     </p>
+                    <p style="margin-top: 7%;"> Balance: $${currCard.accountBalance.toFixed(2)} </p>
+
+                </div>
+
+                `;
+
+                receivingAccount.innerHTML += 
+                `
+                <div 
+                style="background-color: rgb(205, 206, 207); 
+                display: flex;
+                border-radius: 5px; 
+                border: 1px solid black;
+                width: 100% !important;
+                padding: 2px;
+                "
+                >
+                    <input type="radio" name="receiverCard" value="${encodeURIComponent(JSON.stringify(currCard))}">
+                    <p style="margin-right: 20px;"> 
+                     ${currCard.accountType} </br>
+                     ${cardNumber} 
+                     </p>
+                    <p style="margin-top: 7%;"> Balance: $${currCard.accountBalance.toFixed(2)} </p>
+
+                </div>
+
+                `;
+            }
+        }
+
+    })
+    .catch(error => {
+        console.log("Cards Couldnt be Added");
         console.log('Error caught:', error.message);
         console.error('Error:', error);
     });
