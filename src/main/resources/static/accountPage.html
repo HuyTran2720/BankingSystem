@@ -196,7 +196,21 @@
                 </div>
 
                 <!-- DEPOSIT MONEY -->
-                <div id="depositMoney" class="tabcontent">
+                <div id="depositMoney" class="tabcontent" style="width: 100%; display: flex;">
+                    
+                    <form id="depositForm">
+                        <h3> Select Deposit Account </h3>
+                        <div style="display: flex; flex-direction: row; gap: 20px; width: fit-content;">
+                            <div id="despoitAccounts" style="width: 100%;"></div>
+                        </div>
+
+                        <div>
+                            <input type="number" id="depositPin" placeholder="Enter PIN for Selected Card" required>
+                            <input id="depositAmount" type="number" step="0.01" min="1" placeholder="Amount" required>
+                            <input type="submit">
+                        </div>
+                    </form>
+
                 </div>
                 
             </div>

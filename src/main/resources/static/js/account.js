@@ -2,7 +2,7 @@ console.log("account.js script loaded");
 let userData = null;
 
 async function getUserInfo () {
-    document.getElementsByClassName("tab")[7].click();
+    document.getElementsByClassName("tab")[0].click();
     // TODO: CHANGE BACK TO 0
 
     console.log("Fetching Token");
@@ -138,7 +138,7 @@ function showMesage () {
 
     setTimeout(function() {
         messageDiv.classList.remove("show");
-    }, 0); //TODO: CHANGE BACK TO 4000
+    }, 4000); //TODO: CHANGE BACK TO 4000
 }
 
 function loadingReset() {
@@ -915,6 +915,109 @@ document.getElementById("payingForm").addEventListener("submit", async function 
         }
 
         console.log("Payment Success!");
+        loadingReset();
+    }
+});
 
+document.getElementById("depositTab").addEventListener("click", function (e) {
+    const depositAccount = document.getElementById("despoitAccounts");
+    depositAccount.innerHTML = "";
+
+    fetch ('http://localhost:8081/Cards/Accounts', {
+
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        console.log('Response received:', response.status); 
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Cards Adding');
+        console.log('Card Data: ', data);
+
+        let userEmail = userData.email;
+        
+        for (let currCard of data) {
+            let card = currCard.email;
+            console.log("comparing: ", userEmail, " and ", card);
+            if (card === userEmail) {
+                let cardString = currCard.id.toString();
+                let midPoint = Math.floor(cardString.length / 2);
+                let cardNumber = cardString.slice(0, midPoint) + '-' + cardString.slice(midPoint);
+
+                depositAccount.innerHTML += 
+                `
+                <div 
+                style="background-color: rgb(205, 206, 207); 
+                display: flex;
+                border-radius: 5px; 
+                border: 1px solid black;
+                width: 100% !important;
+                padding: 2px;
+                "
+                >
+                    <input type="radio" name="depositCard" value="${encodeURIComponent(JSON.stringify(currCard))}">
+                    <p style="margin-right: 20px;"> 
+                     ${currCard.accountType} </br>
+                     ${cardNumber} 
+                     </p>
+                    <p style="margin-top: 7%;"> Balance: $${currCard.accountBalance.toFixed(2)} </p>
+
+                </div>
+
+                `;
+            }
+        }
+
+    })
+    .catch(error => {
+        console.log("Cards Couldnt be Added");
+        console.log('Error caught:', error.message);
+        console.error('Error:', error);
+    });
+});
+
+document.getElementById("depositForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+    let accountSelected = document.querySelector('input[name="depositCard"]:checked');
+    const accountData = JSON.parse(decodeURIComponent(accountSelected.value));
+    console.log("Account Data: ", accountData);
+
+    const depositAmount = document.getElementById("depositAmount").value;
+    console.log("Deposit Amount: ", depositAmount);
+
+    const enteredPin = document.getElementById("depositPin").value;
+    console.log("Entered Pin: ", enteredPin);
+    console.log("Expected Pin: ", accountData.account_pin);
+
+    if (enteredPin.toString().length != 4) {
+        alert ("Please enter your 4 digit pin");
+    } else if (!accountData) {
+        alert ("Please select an account to deposit to");
+    } else if (enteredPin != accountData.account_pin) {
+        alert ("Incorrect Pin");
+    } else {
+        console.log("Depositing into account");
+
+        const depositStatus = await fetch(`http://localhost:8081/Cards/Accounts/Pay/${accountData.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Amount': `${depositAmount}`
+            }
+        });
+        if (!depositStatus.ok) {
+            throw new Error ("Couldn't complete deposit");
+        }
+
+        console.log("Deposit Success!");
+        loadingReset();
     }
 });
