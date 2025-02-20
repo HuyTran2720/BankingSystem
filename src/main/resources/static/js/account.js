@@ -919,6 +919,7 @@ document.getElementById("payingForm").addEventListener("submit", async function 
     }
 });
 
+// FOR DEPOSITING MONEY
 document.getElementById("depositTab").addEventListener("click", function (e) {
     const depositAccount = document.getElementById("despoitAccounts");
     depositAccount.innerHTML = "";
