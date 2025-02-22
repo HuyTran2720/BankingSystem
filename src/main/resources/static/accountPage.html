@@ -69,8 +69,8 @@
                         </span>
     
                         <h3> Create Card</h3>
-                        <input type="number" step="0.01" id="amount" placeholder="$" required>
-                        <input type="number" id="pin" placeholder="Enter 4 Digit Pin" required>
+                        <input type="number" step="0.01" min="0" id="amount" placeholder="$" required>
+                        <input type="number" id="pin" min="1000" max="9999" placeholder="Enter 4 Digit Pin" style="width: 10%;" required>
                         <label> 
                             <input type="checkbox" id="accountType">
                             Savings Account
@@ -96,7 +96,7 @@
                     <div id="cardUpdating" style="width: fit-content;
                     ">
                     </div>
-                    <input type="number" id="updatingPIN" placeholder="Enter PIN for Selected Card" required style="width:40%;">
+                    <input type="number" id="updatingPIN" placeholder="Enter PIN for Selected Card" min="1000" max="9999" required style="width:40%;">
                     <div style="width: 100%;">
                         <button onclick="window.location.reload()" class="cancelBtn">Cancel</button>
                         <input type="reset">
@@ -107,7 +107,7 @@
                 <form id="changeDetails" style="width: 100%; display: none;">
                     <h3> Enter any details you would like to change. </h3>
                     <input type="text" id="newName" placeholder="New Account Name">
-                    <input type="number" id="newPin" placeholder="New 4 Digit Pin">
+                    <input type="number" id="newPin" min="1000" max="9999" placeholder="New 4 Digit Pin">
                     <label>
                         <input type="checkbox" id="isSavingAccount">
                         Savings Account </span>
@@ -133,7 +133,7 @@
                     ">
                         <h3> Select Card to Delete </h3>
                         <div id="cardDeletion" style="width: fit-content;"></div>
-                        <input type="number" id="deletePIN" placeholder="Enter PIN for Selected Card" required>
+                        <input type="number" id="deletePIN" min="1000" max="9999" style="width: 25%;" placeholder="Enter PIN for Selected Card" required>
                         <div style="width: 100%;">
                             <button onclick="window.location.reload()" class="cancelBtn">Cancel</button>
                             <input type="reset">
@@ -187,7 +187,7 @@
                         <div>
                             <p></p>
                             <label> Account Number </label>
-                            <input id="payeeAccount" type="text" placeholder="1234-5678" required>
+                            <input id="payeeAccount" type="text" minlength="9" maxlength="9" placeholder="1234-5678" required>
                             <input id="payAmount" type="number" step="0.01" min="1" placeholder="Amount" required>
                             <input type="submit">
                         </div>
@@ -205,7 +205,7 @@
                         </div>
 
                         <div>
-                            <input type="number" id="depositPin" placeholder="Enter PIN for Selected Card" required>
+                            <input type="number" id="depositPin" min="1000" max="9999" style="width: 55%;" placeholder="Enter PIN for Selected Card" required>
                             <input id="depositAmount" type="number" step="0.01" min="1" placeholder="Amount" required>
                             <input type="submit">
                         </div>

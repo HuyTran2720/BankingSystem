@@ -138,7 +138,7 @@ function showMesage () {
 
     setTimeout(function() {
         messageDiv.classList.remove("show");
-    }, 4000); //TODO: CHANGE BACK TO 4000
+    }, 0); //TODO: CHANGE BACK TO 4000
 }
 
 function loadingReset() {
@@ -148,6 +148,8 @@ function loadingReset() {
         window.location.reload();
     }, timer)
 }
+
+// TODO: MOVE BACK UP HERE
 
 // OPEN INVISIBLE TAB
 function openTab (event, tabName) {
@@ -358,6 +360,37 @@ function addCards () {
     });
 }
 
+// GENERATE CARDS FOR DIVS
+function generateCards(cards, currCard, values, cardName, inputName) {
+    console.log("Using generateCards()");
+
+    let cardString = currCard.id.toString();
+    let midPoint = Math.floor(cardString.length / 2);
+    let cardNumber = cardString.slice(0, midPoint) + '-' + cardString.slice(midPoint);
+
+    cards.innerHTML +=
+    `
+        <div 
+        style="background-color: rgb(205, 206, 207); 
+        display: flex;
+        border-radius: 5px; 
+        border: 1px solid black;
+        width: 100% !important;
+        padding: 2px;">
+        
+            <input type="radio" name=${inputName} value=${values}>
+            <p> 
+                ${currCard.accountType} 
+                ${cardNumber} 
+                ${cardName} 
+            </p>
+            <p> Balance: $${currCard.accountBalance.toFixed(2)} </p>
+
+        </div>
+
+    `;
+}
+
 // REMOVING CARDS
 document.getElementById("removeCard").addEventListener("click", function() {
     const cards = document.getElementById("cardDeletion");
@@ -388,32 +421,9 @@ document.getElementById("removeCard").addEventListener("click", function() {
             let card = currCard.email;
             console.log("comparing: ", userEmail, " and ", card);
             if (card === userEmail) {
-                let cardString = currCard.id.toString();
-                let midPoint = Math.floor(cardString.length / 2);
-                let cardNumber = cardString.slice(0, midPoint) + '-' + cardString.slice(midPoint);
-
-                cards.innerHTML += 
-                `
-                <div 
-                style="background-color: rgb(205, 206, 207); 
-                display: flex;
-                border-radius: 5px; 
-                border: 1px solid black;
-                width: 100% !important;
-                padding: 2px;
-                "
-                >
-                    <input type="radio" name="currentCard" value="${currCard.id}|${currCard.account_pin}">
-                    <p> 
-                     ${currCard.accountType} 
-                     ${cardNumber} 
-                     ${currCard.accountName} 
-                     </p>
-                        <p> Balance: $${currCard.accountBalance.toFixed(2)} </p>
-
-                </div>
-
-                `;
+                const values = encodeURIComponent(JSON.stringify(currCard));
+                const inputName = "currentCard";
+                generateCards(cards, currCard, values, currCard.accountName, inputName);
             }
         }
 
@@ -431,10 +441,11 @@ document.getElementById("deletingForm").addEventListener("submit", function(even
     let selectedAccount = document.querySelector('input[name="currentCard"]:checked');
     console.log(selectedAccount);
     if (selectedAccount) {
-        const vals = selectedAccount.value.split('|');
-        let userID = vals[0];
-        let userPin = vals[1];
+        let accountData = JSON.parse(decodeURIComponent(selectedAccount.value));
+        let userID = accountData.id;
+        let userPin = accountData.account_pin;
         let enteredPin = document.getElementById("deletePIN").value;
+        console.log("User ID: ", userID);
         console.log("Comparing ", userPin, " with entered: ", enteredPin);
         if (enteredPin != userPin) {
             console.log("INCORRECT PIN ENTERED");
@@ -499,32 +510,10 @@ document.getElementById("editCard").addEventListener("click", function() {
             let card = currCard.email;
             console.log("comparing: ", userEmail, " and ", card);
             if (card === userEmail) {
-                let cardString = currCard.id.toString();
-                let midPoint = Math.floor(cardString.length / 2);
-                let cardNumber = cardString.slice(0, midPoint) + '-' + cardString.slice(midPoint);
-
-                cards.innerHTML += 
-                `
-                <div 
-                style="background-color: rgb(205, 206, 207); 
-                display: flex;
-                border-radius: 5px; 
-                border: 1px solid black;
-                width: 100% !important;
-                padding: 2px;
-                "
-                >
-                    <input type="radio" name="currentCard" value="${encodeURIComponent(JSON.stringify(currCard))}">
-                    <p style="margin-right: 20px;"> 
-                     ${currCard.accountType} </br>
-                     ${cardNumber} 
-                     (${currCard.accountName}) 
-                     </p>
-                    <p style="margin-top: 7%;"> Balance: $${currCard.accountBalance.toFixed(2)} </p>
-
-                </div>
-
-                `;
+                const values = encodeURIComponent(JSON.stringify(currCard));
+                let accName = "(" + currCard.accountName + ")";
+                const inputName = "currentCard";
+                generateCards(cards, currCard, values, accName, inputName);
             }
         }
 
