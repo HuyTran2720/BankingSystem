@@ -705,16 +705,16 @@ document.getElementById("transferForm").addEventListener("submit", async functio
     console.log("Sending: ", transferAmount);
     console.log("Receiving: ", receiverAmount);
     
-    if (senderData.accountBalance + transferAmount < 0) {
+    if (senderData.id == receiverData.id) {
+        console.error("Sender and Receiver accounts cannot be the same");
+        alert("Sender and Receiver accounts cannot be the same");
+        event.preventDefault();
+    } else if (senderData.accountBalance + transferAmount < 0) {
         console.error("Error - user cant send more than they have");
         alert("Insufficient Funds for Transfer");
     } else if (!senderAccount || !receiverAccount) {
         console.error("Missing sender account or receiver account");
         alert("Missing sender account or receiver account");
-        event.preventDefault();
-    } else if (senderData.id == receiverData.id) {
-        console.error("Sender and Receiver accounts cannot be the same");
-        alert("Sender and Receiver accounts cannot be the same");
         event.preventDefault();
     } 
 

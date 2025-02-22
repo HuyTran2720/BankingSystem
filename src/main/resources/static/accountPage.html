@@ -37,7 +37,7 @@
     
                 <div class="topnav">
                     <button class="tab" onclick="openTab(event, 'home')"> Home </button>
-                    <button class="tab" onclick="openTab(event, 'accounts')"> Accounts </button>
+                    <button class="tab" onclick="openTab(event, 'accounts')"> Manage Accounts </button>
                     <button class="tab" onclick="openTab(event, 'pay')"> Pay </button>
                 </div>
     
@@ -48,16 +48,20 @@
                 "
                 >
                     <div id="displayEmpty"></div>
-                    <div class="displayCard" style="display: flex;"></div>
-
+                    <div id="cardsContainer">
+                        <div class="displayCard" style="display: flex;"></div>
+                    </div>
                 </div>
     
                 <!-- TAB: ACCOUNTS -->
                 <div id="accounts" class="tabcontent">
-                    <h3> Accounts </h3>
-                    <button id="addCard" class="tab" onclick="openTab(event, 'createCard')"> Create Card </button>
-                    <button id="editCard" class="tab" onclick="openTab(event, 'updateCard')"> Update Card </button>
-                    <button id="removeCard" class="tab" onclick="openTab(event, 'deleteCard')"> Delete Card </button>
+                    <h3 id="accountsHeader"> Manage Accounts </h3>
+                    <div id="buttonsCol">
+                        <button id="addCard" class="manage" onclick="openTab(event, 'createCard')"> Create Card </button>
+                        <button id="editCard" class="manage" onclick="openTab(event, 'updateCard')"> Update Card </button>
+                        <button id="removeCard" class="manage" onclick="openTab(event, 'deleteCard')"> Delete Card </button>
+                        <button id="transactionCard" class="manage" onclick="openTab(event, 'transactions')"> Transaction History </button>
+                    </div>
                 </div>
     
                     <!-- creating cards -->
@@ -141,13 +145,19 @@
                         </div>
                     </form>
                 </div>
+
+                <div id="transactions" class="tabcontent">
+                    <h3> Transaction History </h3>
+                </div>
     
                 <!-- TAB: PAYING -->
                 <div id="pay" class="tabcontent">
-                    <h3> Accounts </h3>
-                    <button id="transferTab" class="tab" onclick="openTab(event, 'transfer')"> Transfer </button>
-                    <button id="payTab" class="tab" onclick="openTab(event, 'paySomeone')"> Pay Someone </button>
-                    <button id="depositTab" class="tab" onclick="openTab(event, 'depositMoney')"> Deposit </button>
+                    <h3 id="accountsHeader"> Payments </h3>
+                    <div id="buttonsCol">
+                        <button id="transferTab" class="manage" onclick="openTab(event, 'transfer')"> Transfer </button>
+                        <button id="payTab" class="manage" onclick="openTab(event, 'paySomeone')"> Pay Someone </button>
+                        <button id="depositTab" class="manage" onclick="openTab(event, 'depositMoney')"> Deposit </button>
+                    </div>
                 </div>
 
                 <!-- TRANSFERRING BETWEEN ACCOUNTS -->

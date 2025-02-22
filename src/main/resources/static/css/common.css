@@ -158,6 +158,10 @@ input[type=text], input[type=email], input[type=password] {
     color: white;
 }
 
+.confirmBtn:hover {
+    color: white;
+}
+
 .cancelBtn, .confirmBtn {
     border-radius: 5px;
     border-color: transparent;
@@ -344,3 +348,66 @@ input[type=text], input[type=email], input[type=password] {
     animation: l3 1s infinite linear;
   }
   @keyframes l3 {to{transform: rotate(1turn)}}
+
+  #cardContainer {
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+
+  #accounts {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 30%;
+    height: 50%;
+    border-radius: 15px;
+    background-color: whitesmoke;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+
+  #accountsHeader {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: dodgerblue;
+    color: white;
+    width: 100%;
+    height: 15%;
+    margin-bottom: auto;
+    translate: 0px -20px;
+    border-radius: 15px 15px 0px 0px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+
+  #buttonsCol {
+    display: flex;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: column;
+    width: 100%;
+    height: 80%;
+  }
+  
+  .manage {
+    width: 80%;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .manage:hover {
+    color: dodgerblue;
+  }
+
+  #pay {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 30%;
+    height: 50%;
+    border-radius: 15px;
+    background-color: whitesmoke;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
