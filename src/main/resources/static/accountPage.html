@@ -76,7 +76,7 @@
                         </span>
     
                         <h3> Create Card</h3>
-                        <input type="number" step="0.01" min="0" id="amount" placeholder="$ Deposit Amount" style="width: 50%;" required>
+                        <input type="number" step="0.01" min="0" max="99999" id="amount" placeholder="$ Deposit Amount" style="width: 50%;" required>
                         <input type="number" id="pin" min="1000" max="9999" placeholder="Enter 4 Digit Pin" style="width: 50%;" required>
                         <label> 
                             <input type="checkbox" id="accountType">
@@ -248,7 +248,7 @@
 
                         <div>
                             <input type="number" id="depositPin" min="1000" max="9999" style="width: 55%;" placeholder="Enter PIN for Selected Card" required>
-                            <input id="depositAmount" type="number" step="0.01" min="1" placeholder="Amount" required>
+                            <input id="depositAmount" type="number" step="0.01" min="1" max="10000" placeholder="Amount" required>
                             <input type="submit">
                         </div>
                     </form>
