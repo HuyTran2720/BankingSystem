@@ -2,8 +2,12 @@ console.log("account.js script loaded");
 let userData = null;
 
 async function getUserInfo () {
-    document.getElementsByClassName("tab")[0].click();
-    // TODO: CHANGE BACK TO 0
+    document.getElementsByClassName("tab")[1].click();
+
+    // actual tab switching to
+    setTimeout (function() {
+        document.getElementsByClassName("tab")[0].click();
+    }, 100)
 
     console.log("Fetching Token");
 
@@ -78,9 +82,7 @@ async function getUserInfo () {
         } else {
             var tab = document.getElementsByClassName("emptyContainer");
             for (i = 0; i < tab.length; i++) {
-                console.log("making active ", tab[i]);
                 tab[i].classList.add('active');
-                console.log("made active ", tab[i]);
             }
             addCards();
         }
@@ -131,6 +133,7 @@ const observer = new MutationObserver((mutations) => {
         const isDisplayed = window.getComputedStyle(element).display !== 'none';
         checkForCards();
         const hasCard = JSON.parse(userData.hasCard);
+        console.log("User has Card: ", hasCard);
         if (isDisplayed && hasCard) {
             document.getElementById("mainPage").style.height = 'fit-content';
         } else {
