@@ -493,6 +493,7 @@ input[type="submit"].formButtons:hover {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   }
 
+  /*
   #emptyCardsMessage {
     display: flex;
     align-items: center;
@@ -500,3 +501,4 @@ input[type="submit"].formButtons:hover {
     height: 80vh;
     width: 100%;
   }
+  */

@@ -46,22 +46,33 @@ async function getUserInfo () {
         let hasCard = JSON.parse(userData.hasCard);
         if (!hasCard) {
             const popUps = document.getElementsByClassName("displayEmpty");
+            let currentIndex = 0;
             for (let popUp of popUps) {
                 popUp.innerHTML = 
             `
-                <div id="emptyCardsMessage">   
-                    <p> 
-                        It appears you have no cards! </br>
-                        Would you like to create a card <a href="#" id="cardLink" style="color:dodgerblue"> here</a>? 
+                <div id="emptyCardsMessage" style="
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 80vh;
+                width: 100%;
+                ">   
+                    <p style="margin-bottom: 10px;"> 
+                        It appears you have no cards!
+                    </p>    
+                    <p style="margin-top: 0px;">
+                        Would you like to create a card <a href="#" id="cardLink${currentIndex}" style="color:dodgerblue"> here</a>? 
                     </p>
                 </div>
             `;
 
-            const createCardLink = document.getElementById("cardLink");
-            createCardLink.addEventListener("click", function(event) {
-                event.preventDefault;
-                openTab(event, 'createCard');
-            });
+                const createCardLink = document.getElementById(`cardLink${currentIndex}`);
+                createCardLink.addEventListener("click", function(event) {
+                    event.preventDefault;
+                    openTab(event, 'createCard');
+                });
+                currentIndex++;
             }
 
         } else {
