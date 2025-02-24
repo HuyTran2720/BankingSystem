@@ -46,8 +46,15 @@ async function getUserInfo () {
         let hasCard = JSON.parse(userData.hasCard);
         if (!hasCard) {
             const popUp = document.getElementById("displayEmpty");
-            popUp.innerHTML = `<p> It appears you have no cards! </p>`;
-            popUp.innerHTML += `<p> Would you like to create a card <a href="#" id="cardLink" style="color:dodgerblue"> here</a>? </p>`;
+            popUp.innerHTML = 
+            `
+                <div id="emptyCardsMessage">   
+                    <p> 
+                        It appears you have no cards! </br>
+                        Would you like to create a card <a href="#" id="cardLink" style="color:dodgerblue"> here</a>? 
+                    </p>
+                </div>
+            `;
 
             const createCardLink = document.getElementById("cardLink");
             createCardLink.addEventListener("click", function(event) {
@@ -95,6 +102,32 @@ async function maxLimitCards () {
         console.error('Error:', error);
         return false;
     }
+}
+
+// observer checks everytime a new tab is switched, change the mainPage height depending on what tab
+const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+        const element = mutation.target;
+        const isDisplayed = window.getComputedStyle(element).display !== 'none';
+        checkForCards();
+        const hasCard = JSON.parse(userData.hasCard);
+        if (isDisplayed && hasCard) {
+            document.getElementById("mainPage").style.height = 'fit-content';
+        } else {
+            document.getElementById("mainPage").style.height = '80vh';
+        }
+    });
+});
+
+// specifies what the observer is checking for
+const homeDiv = document.getElementById("home");
+observer.observe(homeDiv, {
+    attributes: true,
+    attributeFilter: ['style', 'class']
+});
+
+function unsetMainFit () {
+    document.getElementById("mainPage").style.height = '80vh';
 }
 
 // CHECKING FOR CARDS
@@ -162,7 +195,7 @@ function openTab (event, tabName) {
     for (i = 0; i < tab.length; i++) {
         tab[i].className = tab[i].className.replace(" active", "")
     }
-    document.getElementById(tabName).style.display = "block";
+    document.getElementById(tabName).style.display = "flex";
     event.currentTarget.className += " active";
 }
 
@@ -205,12 +238,12 @@ document.getElementById('cardCreation').addEventListener('submit', async functio
 
     console.log("Form Data: ", {amount, pin});
 
-    let account_type = "Credit Account";
+    let account_type = "Checkings Account";
     if(savings) {
         console.log("Savings Account");
         account_type = "Savings Account";
     } else {
-        console.log("Credit Account");
+        console.log("Checkings Account");
     }
 
     const newCard = {
@@ -311,46 +344,51 @@ function addCards () {
         console.log('Cards Adding');
         console.log('Card Data: ', data);
 
-        const cards = document.getElementsByClassName("displayCard");
+        let totalBalance = 0;
+        const cards = document.getElementById("displayCard");
         let userEmail = userData.email;
         cards.innerHTML = "";
 
-        for (let cardContainer of cards) {
-            cardContainer.innerHTML = "";
             for (let currCard of data) {
                 let card = currCard.email;
                 console.log("comparing: ", userEmail, " and ", card);
                 if (card === userEmail) {
+                    totalBalance = totalBalance + currCard.accountBalance;
                     let cardString = currCard.id.toString();
                     let midPoint = Math.floor(cardString.length / 2);
                     let cardNumber = cardString.slice(0, midPoint) + '-' + cardString.slice(midPoint);
     
-                    cardContainer.innerHTML += 
+                    cards.innerHTML += 
                     `
     
-                    <div 
-                    style="background-color: rgb(205, 206, 207); 
-                    border-radius: 5px; 
-                    margin-right: auto; 
-                    border: 1px solid black;
-                    width: 30%;
-                    padding: 5px;
-                    "
-                    >
-                        <h4> ${currCard.accountType} </h4>
-                        <h5> ${cardNumber} </h5>
-                        <p> ${currCard.accountName} </p>
-                        <div style="display: flex;"> 
-                            <p> Balance:</p>
-                            <p style="margin-left: auto"> $${currCard.accountBalance.toFixed(2)} </p>
+                    <div class="card">
+                        <div>
+                            <h4> ${currCard.accountType} </h4>
+                            <h5> ${cardNumber} (${currCard.accountName}) </h5>
                         </div>
-    
+                        <div style="display: flex; margin-left: auto;"> 
+                            <p> Balance: </br> </br>
+                                $${currCard.accountBalance.toFixed(2)}
+                            </p>
+                        </div>
                     </div>
     
                     `;
                 }
             }
-        }
+
+        cards.innerHTML += 
+        `
+            <div id="cardsInfo">
+                <h5>
+                    Total Balance:
+                </h5>
+                <p>
+                    $${totalBalance.toFixed(2)}
+                    </br>
+                </p>
+            </div>
+        `
 
     })
     .catch(error => {
@@ -371,20 +409,20 @@ function generateCards(cards, currCard, values, cardName, inputName) {
     cards.innerHTML +=
     `
         <div 
-        style="background-color: rgb(205, 206, 207); 
+        style=" background-color: whitesmoke;
         display: flex;
-        border-radius: 5px; 
         border: 1px solid black;
         width: 100% !important;
-        padding: 2px;">
+        padding: 5px;">
         
             <input type="radio" name=${inputName} value=${values}>
             <p> 
+                &nbsp;
                 ${currCard.accountType} 
                 ${cardNumber} 
                 ${cardName} 
             </p>
-            <p> Balance: $${currCard.accountBalance.toFixed(2)} </p>
+            <p> &nbsp;&nbsp;|&nbsp; Balance: $${currCard.accountBalance.toFixed(2)} </p>
 
         </div>
 
@@ -556,7 +594,7 @@ document.getElementById("changeDetails").addEventListener("submit", function(eve
     let newAccName = accountData.accountName;
     let newAccPin = accountData.account_pin;
     let isSavings = document.getElementById("isSavingAccount").checked;
-    let newAccType = "Credit Account";
+    let newAccType = "Checkings Account";
     if (isSavings) {
         newAccType = "Savings Account";
     }

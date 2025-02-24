@@ -13,8 +13,8 @@
                     opacity: 0.4; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; 
                     height: 100%; background-color: gray; z-index: 9999 !important;"
                     >
-                    <div class="loader" style="opacity: 1;"></div>
-                </div>
+                <div class="loader" style="opacity: 1;"></div>
+        </div>
         
         <div class = "header">
             <a href="/" style="display: inline-block;">
@@ -25,8 +25,8 @@
         </div>
 
         <!-- content portion -->
-        <div class = "mainPage">
-            <div class="mainContent">
+        <div id = "mainPage">
+            <div id ="mainContent">
 
                 <div id="message">
                     <h2 style="color: dodgerblue; font-size: xx-large; -webkit-text-stroke: 1px;  -webkit-text-stroke-color: dodgerblue; margin-bottom: 5px;"> 
@@ -36,7 +36,7 @@
                 </div>
     
                 <div class="topnav">
-                    <button class="tab" onclick="openTab(event, 'home')"> Home </button>
+                    <button id="homeButton" class="tab" onclick="openTab(event, 'home')"> Home </button>
                     <button class="tab" onclick="openTab(event, 'accounts')"> Manage Accounts </button>
                     <button class="tab" onclick="openTab(event, 'pay')"> Pay </button>
                 </div>
@@ -45,11 +45,14 @@
                 <div id="home" class="tabcontent" 
                 style="
                 width: 100%;
+                height: 100%;
                 "
-                >
-                    <div id="displayEmpty"></div>
+                >   
+                    <div id="emptyContainer">
+                        <div id="displayEmpty"></div>
+                    </div>
                     <div id="cardsContainer">
-                        <div class="displayCard" style="display: flex;"></div>
+                        <div id="displayCard" style="display: flex;"></div>
                     </div>
                 </div>
     
@@ -73,8 +76,8 @@
                         </span>
     
                         <h3> Create Card</h3>
-                        <input type="number" step="0.01" min="0" id="amount" placeholder="$" required>
-                        <input type="number" id="pin" min="1000" max="9999" placeholder="Enter 4 Digit Pin" style="width: 10%;" required>
+                        <input type="number" step="0.01" min="0" id="amount" placeholder="$ Deposit Amount" style="width: 50%;" required>
+                        <input type="number" id="pin" min="1000" max="9999" placeholder="Enter 4 Digit Pin" style="width: 50%;" required>
                         <label> 
                             <input type="checkbox" id="accountType">
                             Savings Account
@@ -90,9 +93,11 @@
                 ">
 
                 <form id="updatingForm" 
-                style="width: 50%; display: flex; flex-direction: column; position: fixed;
+                style="width: 40%; display: flex; flex-direction: column; position: fixed;
                 top: 62%;
                 left: 50%;
+                gap: 10px;
+                padding: 10px;
                 transform: translate(-50%, -50%);
                 "
                 >
@@ -102,22 +107,31 @@
                     </div>
                     <input type="number" id="updatingPIN" placeholder="Enter PIN for Selected Card" min="1000" max="9999" required style="width:40%;">
                     <div style="width: 100%;">
-                        <button onclick="window.location.reload()" class="cancelBtn">Cancel</button>
-                        <input type="reset">
-                        <input type="submit">
+                        <button onclick="window.location.reload()" style="width: 30%;" class="cancelBtn">Cancel</button>
+                        <input type="reset" class="formButtons" style="width: 30%;">
+                        <input type="submit" class="formButtons" style="width: 30%;">
                     </div>
                 </form>
 
-                <form id="changeDetails" style="width: 100%; display: none;">
+                <!-- TODO: when you switch to another tab and then go back to update account tab, this is still up -->
+                <form id="changeDetails" style="width: 30%; display: none;flex-direction: column; position: fixed;
+                top: 62%;
+                left: 50%;
+                gap: 10px;
+                padding: 10px;
+                transform: translate(-50%, -50%);
+                ">
                     <h3> Enter any details you would like to change. </h3>
-                    <input type="text" id="newName" placeholder="New Account Name">
-                    <input type="number" id="newPin" min="1000" max="9999" placeholder="New 4 Digit Pin">
+                    <input type="text" id="newName" style="width:40%;" placeholder="New Account Name">
+                    <input type="number" id="newPin" min="1000" max="9999" style="width:40%;" placeholder="New 4 Digit Pin">
                     <label>
                         <input type="checkbox" id="isSavingAccount">
                         Savings Account </span>
                     </label>
-                    <button onclick="window.location.reload()" class="cancelBtn">Cancel</button>
-                    <input type="submit" placeholder="Confirm">
+                    <div style="width: 100%;">
+                        <button onclick="window.location.reload()" style="width: 42%;" class="cancelBtn">Cancel</button>
+                        <input type="submit" style="width: 42%;" class="formButtons" placeholder="Confirm">
+                    </div>
                 </form>
 
                 </div>
@@ -127,21 +141,23 @@
                 width: 100%;
                 ">
                     <form id="deletingForm" style="
-                    width: 50%; 
+                    width: 40%; 
                     display: flex; 
                     flex-direction: column; 
                     position: fixed;
                     top: 62%;
                     left: 50%;
+                    gap: 10px;
+                    padding: 10px;
                     transform: translate(-50%, -50%);
                     ">
                         <h3> Select Card to Delete </h3>
                         <div id="cardDeletion" style="width: fit-content;"></div>
                         <input type="number" id="deletePIN" min="1000" max="9999" style="width: 25%;" placeholder="Enter PIN for Selected Card" required>
                         <div style="width: 100%;">
-                            <button onclick="window.location.reload()" class="cancelBtn">Cancel</button>
-                            <input type="reset">
-                            <input type="submit">
+                            <button onclick="window.location.reload()" style="width: 30%;" class="cancelBtn">Cancel</button>
+                            <input type="reset" class="formButtons" style="width: 30%;">
+                            <input type="submit" class="formButtons" style="width: 30%;">
                         </div>
                     </form>
                 </div>
@@ -163,7 +179,14 @@
                 <!-- TRANSFERRING BETWEEN ACCOUNTS -->
                 <div id="transfer" class="tabcontent" style="width: 100%;">
 
-                    <form id="transferForm" style="width: 100%;">
+                    <form id="transferForm" style="width: fit-content;
+                    position: fixed;
+                    top: 62%;
+                    left: 50%;
+                    gap: 10px;
+                    padding: 10px;
+                    transform: translate(-50%, -50%);
+                    ">
                         <h4> Transfer Details </h4>
                         <div style="display: flex; flex-direction: row; gap: 20px; width: fit-content;">
                             <div style="width: 45%;">
@@ -188,7 +211,14 @@
                 <!-- PAY SOMEONE -->
                 <div id="paySomeone" class="tabcontent" style="width: 100%; height: fit-content;">
 
-                    <form id="payingForm">
+                    <form id="payingForm" style="
+                        position: fixed;
+                        top: 62%;
+                        left: 50%;
+                        gap: 10px;
+                        padding: 10px;
+                        transform: translate(-50%, -50%);
+                        ">
                         <h3> Pay Someone </h3>
                         <div style="display: flex; flex-direction: row; gap: 20px; width: fit-content;">
                             <div id="payerAccount" style="width: 100%;"></div>
@@ -197,7 +227,7 @@
                         <div>
                             <p></p>
                             <label> Account Number </label>
-                            <input id="payeeAccount" type="text" minlength="9" maxlength="9" placeholder="1234-5678" required>
+                            <input id="payeeAccount" type="text" minlength="9" maxlength="9" placeholder="E.G: 1234-5678" required>
                             <input id="payAmount" type="number" step="0.01" min="1" placeholder="Amount" required>
                             <input type="submit">
                         </div>
@@ -208,7 +238,14 @@
                 <!-- DEPOSIT MONEY -->
                 <div id="depositMoney" class="tabcontent" style="width: 100%; display: flex;">
                     
-                    <form id="depositForm">
+                    <form id="depositForm" style="
+                        position: fixed;
+                        top: 62%;
+                        left: 50%;
+                        gap: 10px;
+                        padding: 10px;
+                        transform: translate(-50%, -50%);
+                        ">
                         <h3> Select Deposit Account </h3>
                         <div style="display: flex; flex-direction: row; gap: 20px; width: fit-content;">
                             <div id="despoitAccounts" style="width: 100%;"></div>
