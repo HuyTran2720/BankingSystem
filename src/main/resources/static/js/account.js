@@ -220,6 +220,19 @@ function openTab (event, tabName) {
     }
     document.getElementById(tabName).style.display = "flex";
     event.currentTarget.className += " active";
+
+    // TODO: eventually add transactions when done
+    const flexDisplays = ["transfer", "paySomeone", "depositMoney", "updateCard", "deleteCard"];
+    for (let currDisplay of flexDisplays) {
+        if (tabName === currDisplay) {
+            document.getElementById("mainPage").style.height = 'fit-content';
+            document.getElementById(`${currDisplay}`).style.marginTop = "5%";
+            break;
+        } else {
+            document.getElementById("mainPage").style.height = '80vh';
+            document.getElementById(`${currDisplay}`).style.marginTop = "0%";
+        }
+    }
 }
 
 // WHEN USER CLICKS ON CREATE CARD

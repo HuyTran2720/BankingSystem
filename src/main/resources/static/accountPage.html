@@ -97,12 +97,9 @@
                 </div>
 
                 <form id="updatingForm" 
-                style="width: 40%; display: flex; flex-direction: column; position: fixed;
-                top: 62%;
-                left: 50%;
+                style="width: 40%; display: flex; flex-direction: column;
                 gap: 10px;
                 padding: 10px;
-                transform: translate(-50%, -50%);
                 "
                 >
                     <h3> Select Card to Update </h3>
@@ -118,12 +115,9 @@
                 </form>
 
                 <!-- TODO: when you switch to another tab and then go back to update account tab, this is still up -->
-                <form id="changeDetails" style="width: 30%; display: none;flex-direction: column; position: fixed;
-                top: 62%;
-                left: 50%;
+                <form id="changeDetails" style="width: 30%; display: none;flex-direction: column;
                 gap: 10px;
                 padding: 10px;
-                transform: translate(-50%, -50%);
                 ">
                     <h3> Enter any details you would like to change. </h3>
                     <input type="text" id="newName" style="width:40%;" placeholder="New Account Name">
@@ -153,12 +147,8 @@
                     width: 40%; 
                     display: flex; 
                     flex-direction: column; 
-                    position: fixed;
-                    top: 62%;
-                    left: 50%;
                     gap: 10px;
                     padding: 10px;
-                    transform: translate(-50%, -50%);
                     ">
                         <h3> Select Card to Delete </h3>
                         <div id="cardDeletion" style="width: fit-content;"></div>
@@ -175,7 +165,9 @@
                     <div class="emptyContainer">
                         <div class="displayEmpty"></div>
                     </div>
-                    <h3> Transaction History </h3>
+                    <div>
+                        <h3> Transaction History </h3>
+                    </div>
                 </div>
     
                 <!-- TAB: PAYING -->
@@ -195,12 +187,8 @@
                 <div id="transfer" class="tabcontent" style="width: 100%;">
 
                     <form id="transferForm" style="width: fit-content;
-                    position: fixed;
-                    top: 62%;
-                    left: 50%;
                     gap: 10px;
                     padding: 10px;
-                    transform: translate(-50%, -50%);
                     ">
                         <h4> Transfer Details </h4>
                         <div style="display: flex; flex-direction: row; gap: 20px; width: fit-content;">
@@ -227,12 +215,8 @@
                 <div id="paySomeone" class="tabcontent" style="width: 100%; height: fit-content;">
 
                     <form id="payingForm" style="
-                        position: fixed;
-                        top: 62%;
-                        left: 50%;
                         gap: 10px;
                         padding: 10px;
-                        transform: translate(-50%, -50%);
                         ">
                         <h3> Pay Someone </h3>
                         <div style="display: flex; flex-direction: row; gap: 20px; width: fit-content;">
@@ -254,12 +238,8 @@
                 <div id="depositMoney" class="tabcontent" style="width: 100%; display: flex;">
                     
                     <form id="depositForm" style="
-                        position: fixed;
-                        top: 62%;
-                        left: 50%;
                         gap: 10px;
                         padding: 10px;
-                        transform: translate(-50%, -50%);
                         ">
                         <h3> Select Deposit Account </h3>
                         <div style="display: flex; flex-direction: row; gap: 20px; width: fit-content;">
