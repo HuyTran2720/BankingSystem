@@ -48,8 +48,8 @@
                 height: 100%;
                 "
                 >   
-                    <div id="emptyContainer">
-                        <div id="displayEmpty"></div>
+                    <div class="emptyContainer">
+                        <div class="displayEmpty"></div>
                     </div>
                     <div id="cardsContainer">
                         <div id="displayCard" style="display: flex;"></div>
@@ -91,6 +91,10 @@
                 <div id="updateCard" class="tabcontent" style="
                 width: 100%;
                 ">
+
+                <div class="emptyContainer">
+                    <div class="displayEmpty"></div>
+                </div>
 
                 <form id="updatingForm" 
                 style="width: 40%; display: flex; flex-direction: column; position: fixed;
@@ -140,6 +144,11 @@
                 <div id="deleteCard" class="tabcontent" style="
                 width: 100%;
                 ">
+
+                <div class="emptyContainer">
+                    <div class="displayEmpty"></div>
+                </div>
+
                     <form id="deletingForm" style="
                     width: 40%; 
                     display: flex; 
@@ -163,11 +172,17 @@
                 </div>
 
                 <div id="transactions" class="tabcontent">
+                    <div class="emptyContainer">
+                        <div class="displayEmpty"></div>
+                    </div>
                     <h3> Transaction History </h3>
                 </div>
     
                 <!-- TAB: PAYING -->
                 <div id="pay" class="tabcontent">
+                    <div class="emptyContainer">
+                        <div class="displayEmpty"></div>
+                    </div>
                     <h3 id="accountsHeader"> Payments </h3>
                     <div id="buttonsCol">
                         <button id="transferTab" class="manage" onclick="openTab(event, 'transfer')"> Transfer </button>

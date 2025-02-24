@@ -436,9 +436,21 @@ input[type="submit"].formButtons:hover {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   }
 
-  #emptyContainer {
-    position: fixed;
+  .emptyContainer {
+    position: absolute;
+    display: flexbox;
+    align-self: center;
+    justify-self: center;
+    align-items: center !important;
+    justify-items: center !important;
+    height: 100%;
+    width: 100%;
     z-index: 1;
+    background-color: white;
+  }
+
+  .emptyContainer.active {
+    z-index: -100;
   }
 
   #cardsContainer {

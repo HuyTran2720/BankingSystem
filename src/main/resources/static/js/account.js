@@ -45,8 +45,9 @@ async function getUserInfo () {
         checkForCards();
         let hasCard = JSON.parse(userData.hasCard);
         if (!hasCard) {
-            const popUp = document.getElementById("displayEmpty");
-            popUp.innerHTML = 
+            const popUps = document.getElementsByClassName("displayEmpty");
+            for (let popUp of popUps) {
+                popUp.innerHTML = 
             `
                 <div id="emptyCardsMessage">   
                     <p> 
@@ -59,9 +60,17 @@ async function getUserInfo () {
             const createCardLink = document.getElementById("cardLink");
             createCardLink.addEventListener("click", function(event) {
                 event.preventDefault;
-                openTab(event, 'accounts');
+                openTab(event, 'createCard');
             });
+            }
+
         } else {
+            var tab = document.getElementsByClassName("emptyContainer");
+            for (i = 0; i < tab.length; i++) {
+                console.log("making active ", tab[i]);
+                tab[i].classList.add('active');
+                console.log("made active ", tab[i]);
+            }
             addCards();
         }
         
