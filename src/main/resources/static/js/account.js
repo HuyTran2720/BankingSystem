@@ -30,9 +30,9 @@ async function getUserInfo () {
 
     console.log("User Token ", token);
 
-    console.log('Sending request to:', 'http://localhost:8081/users/user-info');
+    console.log('Sending request to:', 'https://bankingsystem-production-3cb0.up.railway.app/users/user-info');
 
-    const response = await fetch("http://localhost:8081/users/user-info", {
+    const response = await fetch("https://bankingsystem-production-3cb0.up.railway.app/users/user-info", {
         method: "POST",
         headers: {
             "Authorization": `Bearer ${token}`
@@ -93,7 +93,7 @@ async function getUserInfo () {
         }
     } else {
         console.error("Couldnt Login with Token: ", await response.text());
-        window.location.href = 'http://localhost:8081/login.html';
+        window.location.href = 'https://bankingsystem-production-3cb0.up.railway.app/login.html';
     }
     showMesage();
 }
@@ -101,7 +101,7 @@ async function getUserInfo () {
 // CHECK IF USER HAS MAX AMOUNT OF CARDS (5)
 async function maxLimitCards () {
     try {
-        const response = await fetch ('http://localhost:8081/Cards/Accounts', {
+        const response = await fetch ('https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -155,7 +155,7 @@ function unsetMainFit () {
 
 // CHECKING FOR CARDS
 function checkForCards () {
-    fetch ('http://localhost:8081/Cards/Accounts', {
+    fetch ('https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -290,9 +290,9 @@ document.getElementById('cardCreation').addEventListener('submit', async functio
         account_pin: pin
     };
 
-    console.log("Sending Data: ", newCard, 'http://localhost:8081/Cards/CreateAccount');
+    console.log("Sending Data: ", newCard, 'https://bankingsystem-production-3cb0.up.railway.app/Cards/CreateAccount');
 
-    fetch ('http://localhost:8081/Cards/CreateAccount', {
+    fetch ('https://bankingsystem-production-3cb0.up.railway.app/Cards/CreateAccount', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -332,7 +332,7 @@ function updateHasCard (isTrue) {
     console.log("updating with email: ", userData.email);
     console.log("hasCard: ", String(isTrue));
 
-    fetch ('http://localhost:8081/users/user-info', {
+    fetch ('https://bankingsystem-production-3cb0.up.railway.app/users/user-info', {
 
         method: 'PUT',
         headers: {
@@ -361,7 +361,7 @@ function updateHasCard (isTrue) {
 
 // ADD CARDS TO SCREEN
 function addCards () {
-    fetch ('http://localhost:8081/Cards/Accounts', {
+    fetch ('https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts', {
 
         method: 'GET',
         headers: {
@@ -470,7 +470,7 @@ document.getElementById("removeCard").addEventListener("click", function() {
     const cards = document.getElementById("cardDeletion");
     cards.innerHTML = "";
 
-    fetch ('http://localhost:8081/Cards/Accounts', {
+    fetch ('https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts', {
 
         method: 'GET',
         headers: {
@@ -526,7 +526,7 @@ document.getElementById("deletingForm").addEventListener("submit", function(even
             return;
         }
 
-        fetch (`http://localhost:8081/Cards/Accounts/${userID}`, {
+        fetch (`https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts/${userID}`, {
 
         method: 'DELETE',
         headers: {
@@ -559,7 +559,7 @@ document.getElementById("editCard").addEventListener("click", function() {
     const cards = document.getElementById("cardUpdating");
     cards.innerHTML = "";
 
-    fetch ('http://localhost:8081/Cards/Accounts', {
+    fetch ('https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts', {
 
         method: 'GET',
         headers: {
@@ -651,7 +651,7 @@ document.getElementById("changeDetails").addEventListener("submit", function(eve
     console.log("Updating with details: ", updatedDetails);
     console.log("Updating on account: ", accountData.id);
 
-    fetch (`http://localhost:8081/Cards/Accounts/${accountData.id}`, {
+    fetch (`https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts/${accountData.id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -684,7 +684,7 @@ document.getElementById("transferTab").addEventListener("click", function() {
     const receivingAccount = document.getElementById("receivingAccount");
     receivingAccount.innerHTML = "";
 
-    fetch ('http://localhost:8081/Cards/Accounts', {
+    fetch ('https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts', {
 
         method: 'GET',
         headers: {
@@ -800,11 +800,11 @@ document.getElementById("transferForm").addEventListener("submit", async functio
             };
 
             const [senderResponse, receiverResponse] = await Promise.all ([
-                fetch(`http://localhost:8081/Cards/Accounts/${senderData.id}`, {
+                fetch(`https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts/${senderData.id}`, {
                     method: 'GET',
                     headers
                 }),
-                fetch(`http://localhost:8081/Cards/Accounts/${receiverData.id}`, {
+                fetch(`https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts/${receiverData.id}`, {
                     method: 'GET',
                     headers
                 })
@@ -820,14 +820,14 @@ document.getElementById("transferForm").addEventListener("submit", async functio
             console.log("Receiver ID: ", receiverData.id);
 
             const [sendingResponse, receivingResponse] = await Promise.all ([
-                fetch(`http://localhost:8081/Cards/Accounts/Pay/${senderData.id}`, {
+                fetch(`https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts/Pay/${senderData.id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                         'Amount': `${transferAmount}`
                     }
                 }),
-                fetch(`http://localhost:8081/Cards/Accounts/Pay/${receiverData.id}`, {
+                fetch(`https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts/Pay/${receiverData.id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -857,7 +857,7 @@ document.getElementById("payTab").addEventListener("click", function() {
     const sendingAccount = document.getElementById("payerAccount");
     sendingAccount.innerHTML = "";
 
-    fetch ('http://localhost:8081/Cards/Accounts', {
+    fetch ('https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts', {
 
         method: 'GET',
         headers: {
@@ -943,7 +943,7 @@ document.getElementById("payingForm").addEventListener("submit", async function 
         console.log("Sending Amount: ", sendAmnt);
         console.log("Receiving: ", receivingAmnt);
 
-        const receiverStatus = await fetch(`http://localhost:8081/Cards/Accounts/CheckExists/${payeeId}`, {
+        const receiverStatus = await fetch(`https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts/CheckExists/${payeeId}`, {
             method: 'GET',
             headers: {
                 'Content-Type':'application/json'
@@ -957,14 +957,14 @@ document.getElementById("payingForm").addEventListener("submit", async function 
         console.log("Valid Account Found");
 
         const [sendingResponse, receivingResponse] = await Promise.all ([
-            fetch(`http://localhost:8081/Cards/Accounts/Pay/${payerData.id}`, {
+            fetch(`https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts/Pay/${payerData.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Amount': `${sendAmnt}`
                 }
             }),
-            fetch(`http://localhost:8081/Cards/Accounts/Pay/${payeeId}`, {
+            fetch(`https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts/Pay/${payeeId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -987,7 +987,7 @@ document.getElementById("depositTab").addEventListener("click", function (e) {
     const depositAccount = document.getElementById("despoitAccounts");
     depositAccount.innerHTML = "";
 
-    fetch ('http://localhost:8081/Cards/Accounts', {
+    fetch ('https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts', {
 
         method: 'GET',
         headers: {
@@ -1070,7 +1070,7 @@ document.getElementById("depositForm").addEventListener("submit", async function
     } else {
         console.log("Depositing into account");
 
-        const depositStatus = await fetch(`http://localhost:8081/Cards/Accounts/Pay/${accountData.id}`, {
+        const depositStatus = await fetch(`https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts/Pay/${accountData.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
