@@ -1,4 +1,4 @@
-console.log("account.js script loaded");
+// // console.log("account.js script loaded");
 let userData = null;
 
 async function getUserInfo () {
@@ -7,14 +7,14 @@ async function getUserInfo () {
     // actual tab switching to
     setTimeout (function() {
         document.getElementsByClassName("tab")[0].click();
-    }, 100)
+    }, 500)
 
-    console.log("Fetching Token");
+    // console.log("Fetching Token");
 
     // changed from const otherwise get errors
     let token = localStorage.getItem('token');
 
-    console.log("User Token ", token);
+    // console.log("User Token ", token);
 
     if (!token) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -23,14 +23,14 @@ async function getUserInfo () {
             token = decodeURIComponent(token);
             localStorage.setItem('token', token);
         } else {
-            console.log("Cant get token at all");
+            // console.log("Cant get token at all");
             return;
         }
     }
 
-    console.log("User Token ", token);
+    // console.log("User Token ", token);
 
-    console.log('Sending request to:', 'https://bankingsystem-production-3cb0.up.railway.app/users/user-info');
+    // console.log('Sending request to:', 'https://bankingsystem-production-3cb0.up.railway.app/users/user-info');
 
     const response = await fetch("https://bankingsystem-production-3cb0.up.railway.app/users/user-info", {
         method: "POST",
@@ -39,13 +39,13 @@ async function getUserInfo () {
         }
     });
 
-    console.log("Fetch Request Received");
+    // console.log("Fetch Request Received");
     
     if (response.ok) {
         userData = await response.json();
-        console.log("Login with Token Success: ", userData);
+        // console.log("Login with Token Success: ", userData);
 
-        console.log("Parsing");
+        // console.log("Parsing");
         checkForCards();
         let hasCard = JSON.parse(userData.hasCard);
         if (!hasCard) {
@@ -108,19 +108,19 @@ async function maxLimitCards () {
             },
         });
 
-        console.log('Response received:', response.status); 
+        // console.log('Response received:', response.status); 
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
 
         const data = await response.json();
-        console.log("Card Info - ", data);
-        console.log("Cards: ", data.length);
+        // console.log("Card Info - ", data);
+        // console.log("Cards: ", data.length);
 
         return data.length === 5;
     } catch (error) {
-        console.log('Error caught:', error.message);
+        // console.log('Error caught:', error.message);
         console.error('Error:', error);
         return false;
     }
@@ -133,7 +133,7 @@ const observer = new MutationObserver((mutations) => {
         const isDisplayed = window.getComputedStyle(element).display !== 'none';
         checkForCards();
         const hasCard = JSON.parse(userData.hasCard);
-        console.log("User has Card: ", hasCard);
+        // console.log("User has Card: ", hasCard);
         if (isDisplayed && hasCard) {
             document.getElementById("mainPage").style.height = 'fit-content';
         } else {
@@ -162,7 +162,7 @@ function checkForCards () {
         },
     })
     .then(response => {
-        console.log('Response received:', response.status); 
+        // console.log('Response received:', response.status); 
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -171,9 +171,9 @@ function checkForCards () {
         return response.json();
     })
     .then(data => {
-        console.log('Cards:', data);
+        // console.log('Cards:', data);
         if (data.length == 0) {
-            console.log("No longer has cards");
+            // console.log("No longer has cards");
             updateHasCard(false);
         } else {
             updateHasCard(true);
@@ -181,7 +181,7 @@ function checkForCards () {
 
     })
     .catch(error => {
-        console.log('Error caught:', error.message);
+        // console.log('Error caught:', error.message);
         console.error('Error:', error);
     });
 }
@@ -194,18 +194,17 @@ function showMesage () {
 
     setTimeout(function() {
         messageDiv.classList.remove("show");
-    }, 0); //TODO: CHANGE BACK TO 4000
+    }, 4000); //TODO: CHANGE BACK TO 4000
 }
 
 function loadingReset() {
-    let timer = Math.floor(Math.random() * 2000 + 2000);
+    let timer = Math.floor(Math.random() * 2000 + 1000);
     document.getElementById("signupLoader").style.display = 'flex';
     setTimeout (function() {
         window.location.reload();
     }, timer)
 }
 
-// TODO: MOVE BACK UP HERE
 
 // OPEN INVISIBLE TAB
 function openTab (event, tabName) {
@@ -239,7 +238,7 @@ function openTab (event, tabName) {
 document.getElementById("addCard").addEventListener('click', async function(e) {
     const isMax = await maxLimitCards();
     if (isMax) {
-        console.log("MAX REACHED");
+        // console.log("MAX REACHED");
         let message = document.getElementById("maxErrorMessage");
         message.classList.add("show");
 
@@ -255,7 +254,7 @@ document.getElementById('cardCreation').addEventListener('submit', async functio
 
     const isMax = await maxLimitCards();
     if (isMax) {
-        console.log("Max Card Limit reached!");
+        // console.log("Max Card Limit reached!");
         let message = document.getElementById("maxErrorMessage");
         message.classList.add("show");
 
@@ -272,14 +271,14 @@ document.getElementById('cardCreation').addEventListener('submit', async functio
         return;
     }
 
-    console.log("Form Data: ", {amount, pin});
+    // console.log("Form Data: ", {amount, pin});
 
     let account_type = "Checkings Account";
     if(savings) {
-        console.log("Savings Account");
+        // console.log("Savings Account");
         account_type = "Savings Account";
     } else {
-        console.log("Checkings Account");
+        // console.log("Checkings Account");
     }
 
     const newCard = {
@@ -290,7 +289,7 @@ document.getElementById('cardCreation').addEventListener('submit', async functio
         account_pin: pin
     };
 
-    console.log("Sending Data: ", newCard, 'https://bankingsystem-production-3cb0.up.railway.app/Cards/CreateAccount');
+    // console.log("Sending Data: ", newCard, 'https://bankingsystem-production-3cb0.up.railway.app/Cards/CreateAccount');
 
     fetch ('https://bankingsystem-production-3cb0.up.railway.app/Cards/CreateAccount', {
         method: 'POST',
@@ -300,7 +299,7 @@ document.getElementById('cardCreation').addEventListener('submit', async functio
         body: JSON.stringify(newCard)
     })
     .then(response => {
-        console.log('Response received:', response.status); 
+        // console.log('Response received:', response.status); 
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -309,18 +308,18 @@ document.getElementById('cardCreation').addEventListener('submit', async functio
         return response.json();
     })
     .then(data => {
-        console.log('Card created:', data);
+        // console.log('Card created:', data);
 
-        console.log('Updating hasCard');
+        // console.log('Updating hasCard');
         updateHasCard(true);
 
-        console.log('Redirecting');
+        // console.log('Redirecting');
 
         // refreshes page in order to show cards
         loadingReset()
     })
     .catch(error => {
-        console.log('Error caught:', error.message);
+        // console.log('Error caught:', error.message);
         console.error('Error:', error);
     });
     }
@@ -329,8 +328,8 @@ document.getElementById('cardCreation').addEventListener('submit', async functio
 
 // UPDATE HAS CARD
 function updateHasCard (isTrue) {
-    console.log("updating with email: ", userData.email);
-    console.log("hasCard: ", String(isTrue));
+    // console.log("updating with email: ", userData.email);
+    // console.log("hasCard: ", String(isTrue));
 
     fetch ('https://bankingsystem-production-3cb0.up.railway.app/users/user-info', {
 
@@ -342,7 +341,7 @@ function updateHasCard (isTrue) {
         },
     })
     .then(response => {
-        console.log('Response received:', response.status); 
+        // console.log('Response received:', response.status); 
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -350,11 +349,11 @@ function updateHasCard (isTrue) {
 
     })
     .then(data => {
-        console.log('Card Updated');
+        // console.log('Card Updated');
     })
     .catch(error => {
-        console.log("Card Couldnt be Updated");
-        console.log('Error caught:', error.message);
+        // console.log("Card Couldnt be Updated");
+        // console.log('Error caught:', error.message);
         console.error('Error:', error);
     });
 }
@@ -369,7 +368,7 @@ function addCards () {
         }
     })
     .then(response => {
-        console.log('Response received:', response.status); 
+        // console.log('Response received:', response.status); 
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -377,8 +376,8 @@ function addCards () {
         return response.json();
     })
     .then(data => {
-        console.log('Cards Adding');
-        console.log('Card Data: ', data);
+        // console.log('Cards Adding');
+        // console.log('Card Data: ', data);
 
         let totalBalance = 0;
         const cards = document.getElementById("displayCard");
@@ -387,7 +386,7 @@ function addCards () {
 
             for (let currCard of data) {
                 let card = currCard.email;
-                console.log("comparing: ", userEmail, " and ", card);
+                // console.log("comparing: ", userEmail, " and ", card);
                 if (card === userEmail) {
                     totalBalance = totalBalance + currCard.accountBalance;
                     let cardString = currCard.id.toString();
@@ -428,15 +427,15 @@ function addCards () {
 
     })
     .catch(error => {
-        console.log("Cards Couldnt be Added");
-        console.log('Error caught:', error.message);
+        // console.log("Cards Couldnt be Added");
+        // console.log('Error caught:', error.message);
         console.error('Error:', error);
     });
 }
 
 // GENERATE CARDS FOR DIVS
 function generateCards(cards, currCard, values, cardName, inputName) {
-    console.log("Using generateCards()");
+    // console.log("Using generateCards()");
 
     let cardString = currCard.id.toString();
     let midPoint = Math.floor(cardString.length / 2);
@@ -478,7 +477,7 @@ document.getElementById("removeCard").addEventListener("click", function() {
         }
     })
     .then(response => {
-        console.log('Response received:', response.status); 
+        // console.log('Response received:', response.status); 
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -486,14 +485,14 @@ document.getElementById("removeCard").addEventListener("click", function() {
         return response.json();
     })
     .then(data => {
-        console.log('Cards Adding');
-        console.log('Card Data: ', data);
+        // console.log('Cards Adding');
+        // console.log('Card Data: ', data);
 
         let userEmail = userData.email;
         
         for (let currCard of data) {
             let card = currCard.email;
-            console.log("comparing: ", userEmail, " and ", card);
+            // console.log("comparing: ", userEmail, " and ", card);
             if (card === userEmail) {
                 const values = encodeURIComponent(JSON.stringify(currCard));
                 const inputName = "currentCard";
@@ -503,26 +502,26 @@ document.getElementById("removeCard").addEventListener("click", function() {
 
     })
     .catch(error => {
-        console.log("Cards Couldnt be Added");
-        console.log('Error caught:', error.message);
+        // console.log("Cards Couldnt be Added");
+        // console.log('Error caught:', error.message);
         console.error('Error:', error);
     });
 });
 
 document.getElementById("deletingForm").addEventListener("submit", function(event) {
     event.preventDefault();
-    console.log("Deleting Card");
+    // console.log("Deleting Card");
     let selectedAccount = document.querySelector('input[name="currentCard"]:checked');
-    console.log(selectedAccount);
+    // console.log(selectedAccount);
     if (selectedAccount) {
         let accountData = JSON.parse(decodeURIComponent(selectedAccount.value));
         let userID = accountData.id;
         let userPin = accountData.account_pin;
         let enteredPin = document.getElementById("deletePIN").value;
-        console.log("User ID: ", userID);
-        console.log("Comparing ", userPin, " with entered: ", enteredPin);
+        // console.log("User ID: ", userID);
+        // console.log("Comparing ", userPin, " with entered: ", enteredPin);
         if (enteredPin != userPin) {
-            console.log("INCORRECT PIN ENTERED");
+            // console.log("INCORRECT PIN ENTERED");
             return;
         }
 
@@ -534,7 +533,7 @@ document.getElementById("deletingForm").addEventListener("submit", function(even
         }
     })
     .then(response => {
-        console.log('Response received:', response.status); 
+        // console.log('Response received:', response.status); 
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -542,16 +541,16 @@ document.getElementById("deletingForm").addEventListener("submit", function(even
         return response.json();
     })
     .then(data => {
-        console.log("Card Deleted");
+        // console.log("Card Deleted");
         checkForCards();
         loadingReset()
     })
     .catch(error => {
-        console.log("Cards Couldnt be Deleted");
-        console.log('Error caught:', error.message);
+        // console.log("Cards Couldnt be Deleted");
+        // console.log('Error caught:', error.message);
         console.error('Error:', error);
     });
-    } else console.log("Couldnt find user");
+    } else  console.log("Couldnt find user");
 });
 
 // UPDATING CARDS
@@ -567,7 +566,7 @@ document.getElementById("editCard").addEventListener("click", function() {
         }
     })
     .then(response => {
-        console.log('Response received:', response.status); 
+        // console.log('Response received:', response.status); 
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -575,14 +574,14 @@ document.getElementById("editCard").addEventListener("click", function() {
         return response.json();
     })
     .then(data => {
-        console.log('Cards Adding');
-        console.log('Card Data: ', data);
+        // console.log('Cards Adding');
+        // console.log('Card Data: ', data);
 
         let userEmail = userData.email;
         
         for (let currCard of data) {
             let card = currCard.email;
-            console.log("comparing: ", userEmail, " and ", card);
+            // console.log("comparing: ", userEmail, " and ", card);
             if (card === userEmail) {
                 const values = encodeURIComponent(JSON.stringify(currCard));
                 let accName = "(" + currCard.accountName + ")";
@@ -593,32 +592,32 @@ document.getElementById("editCard").addEventListener("click", function() {
 
     })
     .catch(error => {
-        console.log("Cards Couldnt be Added");
-        console.log('Error caught:', error.message);
+        // console.log("Cards Couldnt be Added");
+        // console.log('Error caught:', error.message);
         console.error('Error:', error);
     });
 });
 
 document.getElementById("updatingForm").addEventListener("submit", function(event) {
     event.preventDefault();
-    console.log("Updating Chosen Card");
+    // console.log("Updating Chosen Card");
     let selectedAccount = document.querySelector('input[name="currentCard"]:checked');
-    console.log(selectedAccount);
+    // console.log(selectedAccount);
 
     if (selectedAccount) {
         let accountData = JSON.parse(decodeURIComponent(selectedAccount.value));
         let userPin = accountData.account_pin;
         let enteredPin = document.getElementById("updatingPIN").value;
-        console.log("Comparing ", userPin, " with entered: ", enteredPin);
+        // console.log("Comparing ", userPin, " with entered: ", enteredPin);
         if (enteredPin != userPin) {
-            console.log("INCORRECT PIN ENTERED");
+            // console.log("INCORRECT PIN ENTERED");
             return;
         }
 
         document.getElementById("changeDetails").style.display = "flex";
         document.getElementById("updatingForm").style.display= "none";
 
-    } else console.log("Couldnt find user");
+    } else  console.log("Couldnt find user");
 });
 
 document.getElementById("changeDetails").addEventListener("submit", function(event){
@@ -648,8 +647,8 @@ document.getElementById("changeDetails").addEventListener("submit", function(eve
         accountType: newAccType
     }
 
-    console.log("Updating with details: ", updatedDetails);
-    console.log("Updating on account: ", accountData.id);
+    // console.log("Updating with details: ", updatedDetails);
+    // console.log("Updating on account: ", accountData.id);
 
     fetch (`https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts/${accountData.id}`, {
         method: 'PUT',
@@ -659,7 +658,7 @@ document.getElementById("changeDetails").addEventListener("submit", function(eve
         body: JSON.stringify(updatedDetails)
     })
     .then(response => {
-        console.log('Response received:', response.status); 
+        // console.log('Response received:', response.status); 
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -668,11 +667,11 @@ document.getElementById("changeDetails").addEventListener("submit", function(eve
         return response.json();
     })
     .then(data => {
-        console.log('Card Updated');
+        // console.log('Card Updated');
         loadingReset()
     })
     .catch(error => {
-        console.log('Error caught:', error.message);
+        // console.log('Error caught:', error.message);
         console.error('Error:', error);
     });
 });
@@ -692,7 +691,7 @@ document.getElementById("transferTab").addEventListener("click", function() {
         }
     })
     .then(response => {
-        console.log('Response received:', response.status); 
+        // console.log('Response received:', response.status); 
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -700,14 +699,14 @@ document.getElementById("transferTab").addEventListener("click", function() {
         return response.json();
     })
     .then(data => {
-        console.log('Cards Adding');
-        console.log('Card Data: ', data);
+        // console.log('Cards Adding');
+        // console.log('Card Data: ', data);
 
         let userEmail = userData.email;
         
         for (let currCard of data) {
             let card = currCard.email;
-            console.log("comparing: ", userEmail, " and ", card);
+            // console.log("comparing: ", userEmail, " and ", card);
             if (card === userEmail) {
                 let cardString = currCard.id.toString();
                 let midPoint = Math.floor(cardString.length / 2);
@@ -761,8 +760,8 @@ document.getElementById("transferTab").addEventListener("click", function() {
 
     })
     .catch(error => {
-        console.log("Cards Couldnt be Added");
-        console.log('Error caught:', error.message);
+        // console.log("Cards Couldnt be Added");
+        // console.log('Error caught:', error.message);
         console.error('Error:', error);
     });
 });
@@ -776,8 +775,8 @@ document.getElementById("transferForm").addEventListener("submit", async functio
 
     const transferAmount = -document.getElementById("transferAmount").value;
     const receiverAmount = -transferAmount;
-    console.log("Sending: ", transferAmount);
-    console.log("Receiving: ", receiverAmount);
+    // console.log("Sending: ", transferAmount);
+    // console.log("Receiving: ", receiverAmount);
     
     if (senderData.id == receiverData.id) {
         console.error("Sender and Receiver accounts cannot be the same");
@@ -814,10 +813,10 @@ document.getElementById("transferForm").addEventListener("submit", async functio
                 throw new Error("Failed to fetch sender or receiver account");
             }
 
-            console.log("Fetch Successful!");
+            // console.log("Fetch Successful!");
 
-            console.log("Sender ID: ", senderData.id);
-            console.log("Receiver ID: ", receiverData.id);
+            // console.log("Sender ID: ", senderData.id);
+            // console.log("Receiver ID: ", receiverData.id);
 
             const [sendingResponse, receivingResponse] = await Promise.all ([
                 fetch(`https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts/Pay/${senderData.id}`, {
@@ -840,13 +839,13 @@ document.getElementById("transferForm").addEventListener("submit", async functio
                 throw new Error("Failed to transfer money");
             }
 
-            console.log("Transfer Success!");
+            // console.log("Transfer Success!");
 
             loadingReset()
 
         } catch (error) {
             alert("Error transferring, please make sure details are correct or try again later");
-            console.log('Error caught:', error.message);
+            // console.log('Error caught:', error.message);
             console.error('Error:', error);
         }
     }
@@ -865,7 +864,7 @@ document.getElementById("payTab").addEventListener("click", function() {
         }
     })
     .then(response => {
-        console.log('Response received:', response.status); 
+        // console.log('Response received:', response.status); 
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -873,14 +872,14 @@ document.getElementById("payTab").addEventListener("click", function() {
         return response.json();
     })
     .then(data => {
-        console.log('Cards Adding');
-        console.log('Card Data: ', data);
+        // console.log('Cards Adding');
+        // console.log('Card Data: ', data);
 
         let userEmail = userData.email;
         
         for (let currCard of data) {
             let card = currCard.email;
-            console.log("comparing: ", userEmail, " and ", card);
+            // console.log("comparing: ", userEmail, " and ", card);
             if (card === userEmail) {
                 let cardString = currCard.id.toString();
                 let midPoint = Math.floor(cardString.length / 2);
@@ -912,8 +911,8 @@ document.getElementById("payTab").addEventListener("click", function() {
 
     })
     .catch(error => {
-        console.log("Cards Couldnt be Added");
-        console.log('Error caught:', error.message);
+        // console.log("Cards Couldnt be Added");
+        // console.log('Error caught:', error.message);
         console.error('Error:', error);
     });
 });
@@ -938,10 +937,10 @@ document.getElementById("payingForm").addEventListener("submit", async function 
     } else {
         const receivingAmnt = -sendAmnt;
 
-        console.log("Payer ID: ", payerData.id);
-        console.log("Receiver ID: ", payeeId);
-        console.log("Sending Amount: ", sendAmnt);
-        console.log("Receiving: ", receivingAmnt);
+        // console.log("Payer ID: ", payerData.id);
+        // console.log("Receiver ID: ", payeeId);
+        // console.log("Sending Amount: ", sendAmnt);
+        // console.log("Receiving: ", receivingAmnt);
 
         const receiverStatus = await fetch(`https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts/CheckExists/${payeeId}`, {
             method: 'GET',
@@ -951,10 +950,10 @@ document.getElementById("payingForm").addEventListener("submit", async function 
         });
         if (!receiverStatus.ok) {
             alert("Couldn't find account with this id, please check if you entered it correctly");
-            console.log("Couldn't find account with this id, please check if you entered it correctly");
+            // console.log("Couldn't find account with this id, please check if you entered it correctly");
             throw new Error("Couldnt Find Account");
         }
-        console.log("Valid Account Found");
+        // console.log("Valid Account Found");
 
         const [sendingResponse, receivingResponse] = await Promise.all ([
             fetch(`https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts/Pay/${payerData.id}`, {
@@ -977,7 +976,7 @@ document.getElementById("payingForm").addEventListener("submit", async function 
             throw new Error("Failed to transfer money");
         }
 
-        console.log("Payment Success!");
+        // console.log("Payment Success!");
         loadingReset();
     }
 });
@@ -995,7 +994,7 @@ document.getElementById("depositTab").addEventListener("click", function (e) {
         }
     })
     .then(response => {
-        console.log('Response received:', response.status); 
+        // console.log('Response received:', response.status); 
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -1003,14 +1002,14 @@ document.getElementById("depositTab").addEventListener("click", function (e) {
         return response.json();
     })
     .then(data => {
-        console.log('Cards Adding');
-        console.log('Card Data: ', data);
+        // console.log('Cards Adding');
+        // console.log('Card Data: ', data);
 
         let userEmail = userData.email;
         
         for (let currCard of data) {
             let card = currCard.email;
-            console.log("comparing: ", userEmail, " and ", card);
+            // console.log("comparing: ", userEmail, " and ", card);
             if (card === userEmail) {
                 let cardString = currCard.id.toString();
                 let midPoint = Math.floor(cardString.length / 2);
@@ -1042,8 +1041,8 @@ document.getElementById("depositTab").addEventListener("click", function (e) {
 
     })
     .catch(error => {
-        console.log("Cards Couldnt be Added");
-        console.log('Error caught:', error.message);
+        // console.log("Cards Couldnt be Added");
+        // console.log('Error caught:', error.message);
         console.error('Error:', error);
     });
 });
@@ -1052,14 +1051,14 @@ document.getElementById("depositForm").addEventListener("submit", async function
     event.preventDefault();
     let accountSelected = document.querySelector('input[name="depositCard"]:checked');
     const accountData = JSON.parse(decodeURIComponent(accountSelected.value));
-    console.log("Account Data: ", accountData);
+    // console.log("Account Data: ", accountData);
 
     const depositAmount = document.getElementById("depositAmount").value;
-    console.log("Deposit Amount: ", depositAmount);
+    // console.log("Deposit Amount: ", depositAmount);
 
     const enteredPin = document.getElementById("depositPin").value;
-    console.log("Entered Pin: ", enteredPin);
-    console.log("Expected Pin: ", accountData.account_pin);
+    // console.log("Entered Pin: ", enteredPin);
+    // console.log("Expected Pin: ", accountData.account_pin);
 
     if (enteredPin.toString().length != 4) {
         alert ("Please enter your 4 digit pin");
@@ -1068,7 +1067,7 @@ document.getElementById("depositForm").addEventListener("submit", async function
     } else if (enteredPin != accountData.account_pin) {
         alert ("Incorrect Pin");
     } else {
-        console.log("Depositing into account");
+        // console.log("Depositing into account");
 
         const depositStatus = await fetch(`https://bankingsystem-production-3cb0.up.railway.app/Cards/Accounts/Pay/${accountData.id}`, {
             method: 'PUT',
@@ -1081,7 +1080,7 @@ document.getElementById("depositForm").addEventListener("submit", async function
             throw new Error ("Couldn't complete deposit");
         }
 
-        console.log("Deposit Success!");
+        // console.log("Deposit Success!");
         loadingReset();
     }
 });
