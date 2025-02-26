@@ -3,7 +3,7 @@ package BankManagement.com.backend.Entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "app_user")
+@Table(name = "User")
 public class User {
     public User () {}
 
@@ -17,6 +17,7 @@ public class User {
 
     private String password;
 
+    @Column (name = "has_card")
     private boolean hasCard;
 
     public boolean isHasCard() {

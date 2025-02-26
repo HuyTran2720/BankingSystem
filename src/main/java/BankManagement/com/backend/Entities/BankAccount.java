@@ -30,7 +30,7 @@ public class BankAccount {
     private float accountBalance;
 
     // * use from users data
-    @Column (name = "email")
+    // @Column (name = "email")
     private String email;
 
     @Column (name = "account_type")
