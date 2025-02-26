@@ -7,7 +7,7 @@ async function getUserInfo () {
     // actual tab switching to
     setTimeout (function() {
         document.getElementsByClassName("tab")[0].click();
-    }, 500)
+    }, 2000)
 
     // console.log("Fetching Token");
 
@@ -198,7 +198,7 @@ function showMesage () {
 }
 
 function loadingReset() {
-    let timer = Math.floor(Math.random() * 2000 + 1000);
+    let timer = Math.floor(Math.random() * 2000);
     document.getElementById("signupLoader").style.display = 'flex';
     setTimeout (function() {
         window.location.reload();
