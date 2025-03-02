@@ -25,10 +25,10 @@ document.getElementById('accountCreation').addEventListener('submit', function(e
         hasCard: false
     };
 
-    console.log('Sending request to:', 'https://bankingsystem-production-3cb0.up.railway.app/users/signup');
+    console.log('Sending request to:', 'http://localhost:8080/users/signup');
 
     // Send data to backend using fetch API
-    fetch('https://bankingsystem-production-3cb0.up.railway.app/users/signup', {
+    fetch('http://localhost:8080/users/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

@@ -13,9 +13,9 @@ document.getElementById('logInForm').addEventListener('submit', function(e) {
         password: password
     };
 
-    console.log('Sending request to:', 'https://bankingsystem-production-3cb0.up.railway.app/users/login');
+    console.log('Sending request to:', 'http://localhost:8080/users/login');
 
-    fetch('https://bankingsystem-production-3cb0.up.railway.app/users/login', {
+    fetch('http://localhost:8080/users/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
