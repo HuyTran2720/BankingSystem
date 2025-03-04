@@ -475,7 +475,7 @@ input[type="submit"].formButtons:hover {
     width: 100%;
   }
 
-  .card {
+  .card, .transactionRow {
     display: flex;
     flex-direction: row;
     background-color: whitesmoke;
@@ -494,4 +494,11 @@ input[type="submit"].formButtons:hover {
     min-width: 200px; 
     border: 1px solid black;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  #transactions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
   }

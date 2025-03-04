@@ -842,7 +842,13 @@ document.getElementById("transferForm").addEventListener("submit", async functio
 
             console.log("Transfer Success!");
 
-            loadingReset()
+            console.log("Saving Sender History");
+            createTransaction(senderData.id, senderData.email, transferAmount, receiverData.id);
+
+            console.log("Saving Receiver History");
+            createTransaction(receiverData.id, receiverData.email, receiverAmount, senderData.id);
+
+            // loadingReset()
 
         } catch (error) {
             alert("Error transferring, please make sure details are correct or try again later");
@@ -1010,7 +1016,6 @@ document.getElementById("depositTab").addEventListener("click", function (e) {
         
         for (let currCard of data) {
             let card = currCard.email;
-            console.log("comparing: ", userEmail, " and ", card);
             if (card === userEmail) {
                 let cardString = currCard.id.toString();
                 let midPoint = Math.floor(cardString.length / 2);
@@ -1084,4 +1089,97 @@ document.getElementById("depositForm").addEventListener("submit", async function
         console.log("Deposit Success!");
         loadingReset();
     }
+});
+
+// SAVE TRANSACTION INTO HISTORY
+async function createTransaction (cardId, cardEmail, transAmount, other) {
+
+    const newTransaction = {
+        id: cardId,
+        email: cardEmail,
+        transactionAmount: transAmount,
+        otherUser: other
+    };
+
+    console.log("Saving Transaction Data: ", newTransaction);
+
+    await fetch ('http://localhost:8080/Transactions/CreateTransaction', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newTransaction)
+    })
+    .then(response => {
+        console.log('Response received:', response.status); 
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        return response.json();
+    })
+    .then(data => {
+        console.log('Transaction created:', data);
+    })
+    .catch(error => {
+        console.log('Error caught:', error.message);
+        console.error('Error:', error);
+    });
+}
+
+// TRANSACTION HISTORY
+document.getElementById("transactionCard").addEventListener("click", function (e) {
+    e.preventDefault();
+
+    console.log("Loading Transactions");
+
+    fetch ('http://localhost:8080/Transactions/History', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        console.log("Transaction Status: ", response.status);
+
+        if (!response.ok) {
+            throw new Error("Error Accessing Transaction History");
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Transaction Data: ", data);
+
+        let historyDiv = document.getElementById("showTransactions");
+        historyDiv.innerHTML = "";
+
+        if (data.length === 0) {
+            historyDiv.innerHTML += "<h3>No Transaction History<h3>";
+        } else {
+
+            for (let currTransaction of data.slice().reverse()) {
+                if (currTransaction.email === userData.email) {
+                    let cardString = currTransaction.id.toString();
+                    let midPoint = Math.floor(cardString.length / 2);
+                    let cardNumber = cardString.slice(0, midPoint) + '-' + cardString.slice(midPoint);
+
+                    const transType = currTransaction.transactionAmount < 0 ? "To" : "From";
+                    historyDiv.innerHTML += `
+                        <div class="transactionRow">
+                            <p> Account: ${cardNumber} </p>
+                            <p>
+                                Transfer ${transType} ${currTransaction.otherUser} ${currTransaction.transactionAmount}
+                            </p>
+                        </div>
+                    `;
+                }
+            }
+
+        }
+    })
+    .catch(error => {
+        console.log('Error caught:', error.message);
+        console.error('Error:', error);
+    });
 });
