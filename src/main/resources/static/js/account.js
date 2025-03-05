@@ -1169,12 +1169,14 @@ document.getElementById("transactionCard").addEventListener("click", function (e
                     width: 100% !important;
                     padding: 2px;
                     ">
-                        <input type="radio" name="cardSelected" value="${encodeURIComponent(JSON.stringify(currCard))}">
-                        <p style="margin-right: 20px;"> 
-                        ${currCard.accountType} </br>
-                        ${cardNumber} 
-                        </p>
-                        <p style="margin-top: 7%;"> Balance: $${currCard.accountBalance.toFixed(2)} </p>
+                        <button value="${encodeURIComponent(JSON.stringify(currCard))}" style="
+                            width: fit-content;
+                            height: fit-content;
+                        "> 
+                            ${currCard.accountType} </br>
+                            ${cardNumber} 
+                            Balance: $${currCard.accountBalance.toFixed(2)}
+                        </button>
                     </div>
                 `;
             }
@@ -1188,14 +1190,16 @@ document.getElementById("transactionCard").addEventListener("click", function (e
 });
 
 // TRANSACTION HISTORY
-// TODO: CHANGE THIS TO BE SPECIFIC TO CARD CHOSEN
-document.getElementById("cardTransactionForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
+// TODO: FORMAT
+document.getElementById("cardTransactionForm").addEventListener("click", async function (e) {
 
-    console.log("Loading Transactions");
+    if (e.target.tagName === 'BUTTON') {
+        e.preventDefault();
 
-    let selectedAccount = document.querySelector('input[name="cardSelected"]:checked');
-    const accountData = JSON.parse(decodeURIComponent(selectedAccount.value));
+        console.log("Loading Transactions");
+
+        let selectedAccount = e.target.value;
+    const accountData = JSON.parse(decodeURIComponent(selectedAccount));
 
     console.log("Account Selected: ", accountData);
 
@@ -1233,11 +1237,12 @@ document.getElementById("cardTransactionForm").addEventListener("submit", async 
                     const otherNumber = otherString.slice(0, midPoint) + '-' + otherString.slice(midPoint);
 
                     const transType = currTransaction.transactionAmount < 0 ? "to" : "from";
+
                     historyDiv.innerHTML += `
                         <div class="transactionRow">
                             <p> Account: ${cardNumber} &nbsp; </p>
                             <p>
-                                Transfer ${transType} ${otherNumber} ${currTransaction.transactionAmount}
+                                Transfer ${transType} ${otherNumber} ${currTransaction.transactionAmount} 
                             </p>
                         </div>
                     `;
@@ -1250,4 +1255,7 @@ document.getElementById("cardTransactionForm").addEventListener("submit", async 
         console.log('Error caught:', error.message);
         console.error('Error:', error);
     });
+
+    }
+
 });
