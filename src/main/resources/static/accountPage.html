@@ -163,10 +163,21 @@
                     </form>
                 </div>
 
+                <!-- TAB: TRANSACTIONS -->
                 <div id="transactions" class="tabcontent">
                     <div class="emptyContainer">
                         <div class="displayEmpty"></div>
                     </div>
+
+                    <!-- Select a card to show history -->
+                    <div>
+                        <form id="cardTransactionForm">
+                            <div id="selectCard"></div>
+                            <input type="submit">
+                        </form>
+                    </div>
+
+                    <!-- Show specific history for card chosen -->
                     <div id="transactionsContainer">    
                         <h3> Transaction History </h3>
                         <div id="showTransactions"></div>

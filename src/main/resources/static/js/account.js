@@ -1128,11 +1128,76 @@ async function createTransaction (cardId, cardEmail, transAmount, other) {
     });
 }
 
-// TRANSACTION HISTORY
+// TRANSACTIONS: SELECT A CARD TO SHOW HISTORY
 document.getElementById("transactionCard").addEventListener("click", function (e) {
     e.preventDefault();
 
+    console.log("Loading Cards");
+
+    fetch ('http://localhost:8080/Cards/Accounts', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        console.log("Current Status: ", response.status);
+
+        if (!response.ok) {
+            throw new Error("Error Accessing Cards");
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Card Data: ", data);
+
+        let cardsToShow = document.getElementById("selectCard");
+        cardsToShow.innerHTML = "";
+    
+        for (let currCard of data) {
+            if (currCard.email === userData.email) {
+                let cardString = currCard.id.toString();
+                let midPoint = Math.floor(cardString.length / 2);
+                let cardNumber = cardString.slice(0, midPoint) + '-' + cardString.slice(midPoint);
+
+                cardsToShow.innerHTML += `
+                    <div
+                    style="background-color: rgb(205, 206, 207); 
+                    display: flex;
+                    border-radius: 5px; 
+                    border: 1px solid black;
+                    width: 100% !important;
+                    padding: 2px;
+                    ">
+                        <input type="radio" name="cardSelected" value="${encodeURIComponent(JSON.stringify(currCard))}">
+                        <p style="margin-right: 20px;"> 
+                        ${currCard.accountType} </br>
+                        ${cardNumber} 
+                        </p>
+                        <p style="margin-top: 7%;"> Balance: $${currCard.accountBalance.toFixed(2)} </p>
+                    </div>
+                `;
+            }
+        }
+
+    })
+    .catch(error => {
+        console.log('Error caught:', error.message);
+        console.error('Error:', error);
+    });
+});
+
+// TRANSACTION HISTORY
+// TODO: CHANGE THIS TO BE SPECIFIC TO CARD CHOSEN
+document.getElementById("cardTransactionForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
     console.log("Loading Transactions");
+
+    let selectedAccount = document.querySelector('input[name="cardSelected"]:checked');
+    const accountData = JSON.parse(decodeURIComponent(selectedAccount.value));
+
+    console.log("Account Selected: ", accountData);
 
     fetch ('http://localhost:8080/Transactions/History', {
         method: 'GET',
@@ -1159,17 +1224,20 @@ document.getElementById("transactionCard").addEventListener("click", function (e
         } else {
 
             for (let currTransaction of data.slice().reverse()) {
-                if (currTransaction.email === userData.email) {
-                    let cardString = currTransaction.id.toString();
+                if (currTransaction.id === accountData.id) {
+                    const cardString = currTransaction.id.toString();
                     let midPoint = Math.floor(cardString.length / 2);
-                    let cardNumber = cardString.slice(0, midPoint) + '-' + cardString.slice(midPoint);
+                    const cardNumber = cardString.slice(0, midPoint) + '-' + cardString.slice(midPoint);
 
-                    const transType = currTransaction.transactionAmount < 0 ? "To" : "From";
+                    const otherString = currTransaction.otherUser.toString();
+                    const otherNumber = otherString.slice(0, midPoint) + '-' + otherString.slice(midPoint);
+
+                    const transType = currTransaction.transactionAmount < 0 ? "to" : "from";
                     historyDiv.innerHTML += `
                         <div class="transactionRow">
-                            <p> Account: ${cardNumber} </p>
+                            <p> Account: ${cardNumber} &nbsp; </p>
                             <p>
-                                Transfer ${transType} ${currTransaction.otherUser} ${currTransaction.transactionAmount}
+                                Transfer ${transType} ${otherNumber} ${currTransaction.transactionAmount}
                             </p>
                         </div>
                     `;
